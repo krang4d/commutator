@@ -11,7 +11,7 @@ powermanager::powermanager(Logger *log, double current_voltage) : _plog(log), _c
 
 void powermanager::setVoltage(double v)
 {
-       string str = "Установка напряжения питания:" + to_string(v);
+       string str = "<div style='color:#ff0000'>Установка напряжения питания:" + to_string(v) + "</div>";
        _plog->log(str);
 }
 

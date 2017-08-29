@@ -1,21 +1,32 @@
 #include <iostream>
+#include <QApplication>
 
 #include "mswitch.h"
 #include "measurement.h"
 #include "logger.h"
 #include "powermanager.h"
 #include "composite.h"
+#include "mainwindow.h"
+
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
 
-    Logger *log(new FileLogger());
+    mainWindow *mw = new mainWindow;
+    //QString *msg = new QString(QWidget::tr("<p>Начало проверки модуля МС-54.011</p>"));
 
-    powermanager *p(new powermanager(log, 11));
-    p->setVoltage(12.5);
 
+    mw->setWindowTitle(QMainWindow::tr("Прототип коммутатора"));
+    mw->resize(500, 500);
+    mw->show();
+
+    //msg->append(QMainWindow::tr("<p>setNextLine()</p>"));
+
+    Logger *log(new WindowLogger(mw));
+    log->setMessage("<div style='color:#00ff00; margin: 5px 0px'>Начало проверк</div>");
     Scenario s1;
 
     IComposite::SPtr PowerON(new powermanager(log, 27));
@@ -42,5 +53,5 @@ int main(int argc, char *argv[])
 
     delete log;
 
-    return 0;
+    return app.exec();
 }

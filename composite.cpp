@@ -37,7 +37,7 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 
 void Scenario::action(){
     for(SPtr& sptr : children_){
-        if (!sptr->nextAction()) break;
+        if (!sptr->nextAction()) throw AbortScenario();
         sptr->action();
     }
 }

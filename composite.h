@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <memory>
 
+class AbortScenario {};
+
 class IComposite{
 
 public:

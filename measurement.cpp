@@ -14,14 +14,14 @@ measurement::measurement(Logger *log, operation op)
 
 double measurement::getVoltage()
 {
-    string str = "Измерение напряжения";
+    string str = "<div>Измерение напряжения</div>";
     _plog->log(str);
     return 0;
 }
 
 double measurement::getResistance()
 {
-    string str = "Измерение сопротивленияя";
+    string str = "<div>Измерение сопротивленияя</div>";
     _plog->log(str);
     return 0;
 }

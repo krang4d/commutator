@@ -19,7 +19,6 @@ public:
 protected:
     Logger *_plog;
     operation _op;
-
 };
 
 #endif // MEASUREMENT_H
