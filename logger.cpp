@@ -2,63 +2,22 @@
 #include <iostream>
 #include <QString>
 
-Logger::Logger(mainWindow *_mv): mw(_mv), vstr(0)
-{
-
-}
-
-Logger::~Logger()
-{
-
-}
-
-void Logger::setMessage(const string &str)
-{
-    vstr.push_back(str);
-}
-
-ConsoleLogger::~ConsoleLogger()
-{
-
-}
-
-void ConsoleLogger::log(string &str)
+void ConsoleLogger::log(const string &str)
 {
     cout << "ConsoleLogger: " << str << endl;
 }
 
-FileLogger::~FileLogger()
-{
-
-}
-
-void FileLogger::log(string &str)
+void FileLogger::log(const string &str)
 {
     cout << "FileLogger: " << str << endl;
 }
 
-AllLogger::~AllLogger()
+WindowLogger::WindowLogger(mainWindow *_mv) :  mw(_mv), vstr(0)
 {
 
 }
 
-void AllLogger::log(string &str)
-{
-    ConsoleLogger::log(str);
-    FileLogger::log(str);
-}
-
-WindowLogger::WindowLogger(mainWindow *mv_) : Logger(mv_)
-{
-
-}
-
-WindowLogger::~WindowLogger()
-{
-
-}
-
-void WindowLogger::log(string &str)
+void WindowLogger::log(const string &str)
 {
     //QString qstr(str.c_str());
     vstr.push_back(str);
@@ -70,4 +29,27 @@ void WindowLogger::log(string &str)
         qstr += '\n';
     }
     mw->setNextLine(&qstr);
+}
+
+
+
+AllLogger::AllLogger(mainWindow *mv)
+{
+    fl = new FileLogger();
+    cl = new ConsoleLogger();
+    wl = new WindowLogger(mv);
+}
+
+AllLogger::~AllLogger()
+{
+    delete fl;
+    delete cl;
+    delete wl;
+}
+
+void AllLogger::log(const string &str)
+{
+    fl->log(str);
+    cl->log(str);
+    wl->log(str);
 }

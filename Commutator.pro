@@ -1,7 +1,7 @@
 QT += core gui widgets
 INCLUDEPATH += .
 TEMPLATE = app
-CONFIG += console c++11
+//CONFIG += console c++11
 
 SOURCES += main.cpp \
     measurement.cpp \

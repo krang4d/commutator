@@ -3,6 +3,10 @@
 CenterWidget::CenterWidget(QWidget *parent) : QWidget(parent)
 {
     setupLayout();
+
+    connect(ExitButton, SIGNAL(pressed()), this, SIGNAL(Exit()));
+    connect(StartButton, SIGNAL(pressed()), this, SIGNAL(Start()));
+    connect(AbortButton, SIGNAL(pressed()), this, SIGNAL(Abort()));
 }
 
 void CenterWidget::setupLayout(){
@@ -21,10 +25,8 @@ void CenterWidget::setupLayout(){
     slaveLayout->addWidget(StartButton);
     slaveLayout->addWidget(AbortButton);
     slaveLayout->addWidget(ExitButton);
-
     masterLayout->addLayout(slaveLayout);
     setLayout(masterLayout);
-
     qDebug() << QString("setupLayout()");
 }
 

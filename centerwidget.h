@@ -15,7 +15,6 @@ class CenterWidget : public QWidget
 public:
     CenterWidget(QWidget *parent = 0);
     void setMessage(QString *msg);
-
 private:
     QLabel *MessageLabel;
     QTextEdit *MessageTextEdit;
@@ -26,7 +25,9 @@ private:
     void setupLayout(void);
 
 signals:
-
+    void Exit();
+    void Abort();
+    void Start();
 public slots:
 };
 

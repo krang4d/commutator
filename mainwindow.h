@@ -14,6 +14,7 @@
 #include <QPushButton>
 #include <string>
 #include "centerwidget.h"
+#include "composite.h"
 
 class mainWindow : public QMainWindow
 {
@@ -30,6 +31,7 @@ protected:
 
 private slots:
     void about();
+    void run();
 
 private:
     QAction *aboutAction;
@@ -39,6 +41,7 @@ private:
     QLabel *sb2;
     QLabel *sb3;
     CenterWidget *cw;
+    Scenario *sc;
 
     bool askClose();
 

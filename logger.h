@@ -10,42 +10,47 @@ using namespace std;
 class Logger
 {
 public:
-    Logger(mainWindow*_mv);
-    virtual ~Logger();
-    virtual void log(string &str) = 0;
-    void setMessage(const string &str);
-protected:
-    mainWindow *mw;
-    vector<string> vstr;
+    virtual ~Logger() {}
+    virtual void log(const string &str) = 0;
 };
 
 class ConsoleLogger : virtual public Logger
 {
 public:
-    virtual ~ConsoleLogger();
-    void log(string &str) override;
+    ConsoleLogger() {}
+    virtual ~ConsoleLogger() {}
+    void log(const string &str) override;
 };
 
 class FileLogger : virtual public Logger
 {
 public:
-    virtual ~FileLogger();
-    void log(string &str) override;
+    FileLogger() {}
+    virtual ~FileLogger() {}
+    void log(const string &str) override;
 };
 
-class WindowLogger : public Logger
+class WindowLogger : virtual public Logger
 {
 public:
-    WindowLogger(mainWindow *mv_);
-    virtual ~WindowLogger();
-    void log(string &str) override;
+    WindowLogger(mainWindow *_mv);
+    virtual ~WindowLogger() {}
+    void log(const string &str) override;
+protected:
+    mainWindow *mw;
+    vector<string> vstr;
 };
 
-class AllLogger : public ConsoleLogger, FileLogger
+class AllLogger : virtual public Logger
 {
 public:
+    AllLogger(mainWindow *mv);
     virtual ~AllLogger();
-    void log(string &str);
+    void log(const string &str);
+protected:
+    WindowLogger *wl;
+    FileLogger *fl;
+    ConsoleLogger *cl;
 };
 
 #endif // LOGGER_H
