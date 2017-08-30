@@ -69,7 +69,9 @@ void mainWindow::about() {
 void mainWindow::run()
 {
     Logger *log(new AllLogger(this));
-    log->log("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>Начало проверк</div>");
+    log->log("<meta http-equiv=\"refresh\" content=\"1\">");
+    QString msg = QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
+    log->log(msg.toStdString());
 
 
     IComposite::SPtr PowerON(new powermanager(log, 27));

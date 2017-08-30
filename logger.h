@@ -5,6 +5,8 @@
 #include <vector>
 #include "mainwindow.h"
 
+class QFile;
+class QDataTime;
 using namespace std;
 
 class Logger
@@ -12,6 +14,7 @@ class Logger
 public:
     virtual ~Logger() {}
     virtual void log(const string &str) = 0;
+    QString GetDataTime();
 };
 
 class ConsoleLogger : virtual public Logger
@@ -25,9 +28,12 @@ public:
 class FileLogger : virtual public Logger
 {
 public:
-    FileLogger() {}
-    virtual ~FileLogger() {}
+    FileLogger();
+    virtual ~FileLogger();
     void log(const string &str) override;
+private:
+    QFile *flog;
+    QTextStream *outfile;
 };
 
 class WindowLogger : virtual public Logger
