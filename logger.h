@@ -15,6 +15,7 @@ public:
     virtual ~Logger() {}
     virtual void log(const string &str) = 0;
     QString GetDataTime();
+    QString GetTime();
 };
 
 class ConsoleLogger : virtual public Logger

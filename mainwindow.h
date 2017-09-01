@@ -32,6 +32,7 @@ protected:
 private slots:
     void about();
     void run();
+    void view();
 
 private:
     QAction *aboutAction;

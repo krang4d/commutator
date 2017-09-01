@@ -23,6 +23,7 @@ mainWindow::mainWindow()
     connect(exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(cw, SIGNAL(Exit()), this, SLOT(close()));
     connect(cw, SIGNAL(Start()), this, SLOT(run()));
+    connect(cw, SIGNAL(View()), this, SLOT(view()));
 
     fileMenu = menuBar()->addMenu(tr("&Файл"));
     fileMenu->addAction(aboutAction);
@@ -69,7 +70,7 @@ void mainWindow::about() {
 void mainWindow::run()
 {
     Logger *log(new AllLogger(this));
-    log->log("<meta http-equiv=\"refresh\" content=\"1\">");
+    //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
     QString msg = QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
     log->log(msg.toStdString());
 
@@ -97,6 +98,13 @@ void mainWindow::run()
 
     cout << "***Выполнение сценария s1***" << endl;
     s1->action();
+}
+
+void mainWindow::view()
+{
+    QProcess vim;
+    vim.startDetached("google-chrome Commutator.html");
+    vim.waitForFinished();
 }
 
 bool mainWindow::askClose() {

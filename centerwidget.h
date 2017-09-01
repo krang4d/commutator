@@ -19,14 +19,14 @@ private:
     QLabel *MessageLabel;
     QTextEdit *MessageTextEdit;
     QPushButton *StartButton;
-    QPushButton *AbortButton;
+    QPushButton *ViewButton;
     QPushButton *ExitButton;
 
     void setupLayout(void);
 
 signals:
     void Exit();
-    void Abort();
+    void View();
     void Start();
 public slots:
 };

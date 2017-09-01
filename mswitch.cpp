@@ -13,7 +13,8 @@ mswitch::mswitch(Logger *log, channel ch)
 void mswitch::switchChannel(channel ch)
 {
     current_channel = ch;
-    string str = "<div>Подключение канала - Y" + to_string(ch) +"</div>";
+    string str = "<div>Подключение канала - Y" + to_string(ch) +\
+            ".    " + _plog->GetTime().toStdString() + "</div>";
     _plog->log(str);
 
 }

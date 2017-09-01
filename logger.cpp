@@ -3,7 +3,7 @@
 
 void ConsoleLogger::log(const string &str)
 {
-    cout << "ConsoleLogger: " << str << endl;
+    cout << str << endl;
 }
 
 FileLogger::FileLogger()
@@ -49,7 +49,6 @@ WindowLogger::WindowLogger(mainWindow *_mv) :  mw(_mv), vstr(0)
 
 void WindowLogger::log(const string &str)
 {
-    //QString qstr(str.c_str());
     vstr.push_back(str);
     QString qstr;
     for(uint i = 0; i < vstr.size(); i++)
@@ -87,5 +86,11 @@ void AllLogger::log(const string &str)
 QString Logger::GetDataTime()
 {
     QDateTime dt = QDateTime::currentDateTime();
-    return dt.toString();
+    return dt.toString("Время hh:mm:ss, Дата dd.MM.yyyy");
+}
+
+QString Logger::GetTime()
+{
+    QTime dt = QTime::currentTime();
+    return dt.toString("Время hh:mm:ss.zzz");
 }

@@ -6,7 +6,7 @@ CenterWidget::CenterWidget(QWidget *parent) : QWidget(parent)
 
     connect(ExitButton, SIGNAL(pressed()), this, SIGNAL(Exit()));
     connect(StartButton, SIGNAL(pressed()), this, SIGNAL(Start()));
-    connect(AbortButton, SIGNAL(pressed()), this, SIGNAL(Abort()));
+    connect(ViewButton, SIGNAL(pressed()), this, SIGNAL(View()));
 }
 
 void CenterWidget::setupLayout(){
@@ -20,10 +20,10 @@ void CenterWidget::setupLayout(){
 
     QHBoxLayout *slaveLayout = new QHBoxLayout;
     StartButton = new QPushButton(tr("Начать проверку"));
-    AbortButton = new QPushButton(tr("Прервать проверку"));
+    ViewButton = new QPushButton(tr("Просмотреть файл"));
     ExitButton = new QPushButton(tr("Закрыть программу"));
     slaveLayout->addWidget(StartButton);
-    slaveLayout->addWidget(AbortButton);
+    slaveLayout->addWidget(ViewButton);
     slaveLayout->addWidget(ExitButton);
     masterLayout->addLayout(slaveLayout);
     setLayout(masterLayout);
