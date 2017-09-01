@@ -1,4 +1,4 @@
-#ifndef COMPOSITE_H
+﻿#ifndef COMPOSITE_H
 #define COMPOSITE_H
 
 #include <iostream>
@@ -8,7 +8,8 @@
 
 class AbortScenario {};
 
-class IComposite{
+class IComposite
+{
 
 public:
     typedef std::shared_ptr<IComposite> SPtr;

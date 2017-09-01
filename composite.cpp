@@ -1,4 +1,4 @@
-#include "composite.h"
+﻿#include "composite.h"
 
 IComposite::IComposite() : _next(true)
 {

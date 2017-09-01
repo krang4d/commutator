@@ -1,4 +1,4 @@
-#include "measurement.h"
+﻿#include "measurement.h"
 
 #include <iostream>
 
@@ -14,14 +14,14 @@ measurement::measurement(Logger *log, operation op)
 
 double measurement::getVoltage()
 {
-    string str = "<div>Измерение напряжения.   " + _plog->GetTime().toStdString() + ";</div>";
+    string str = "<div>Измерение напряжения.   " + _plog->GetTime() + ";</div>";
     _plog->log(str);
     return 0;
 }
 
 double measurement::getResistance()
 {
-    string str = "<div>Измерение сопротивления.   " + _plog->GetTime().toStdString() + "</div>";
+    string str = "<div>Измерение сопротивления.   " + _plog->GetTime() + "</div>";
     _plog->log(str);
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "centerwidget.h"
+﻿#include "centerwidget.h"
 
 CenterWidget::CenterWidget(QWidget *parent) : QWidget(parent)
 {
@@ -30,9 +30,9 @@ void CenterWidget::setupLayout(){
     qDebug() << QString("setupLayout()");
 }
 
-void CenterWidget::setMessage(QString *msg){
+void CenterWidget::setMessage(QString msg){
     //qDebug() << msg->toUtf8();
     //MessageTextEdit->setText(msg->toUtf8());
     //MessageTextEdit->setText(msg->toUtf8());
-    MessageTextEdit->setText(*msg);
+    MessageTextEdit->setText(msg);
 }

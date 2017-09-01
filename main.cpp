@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <QApplication>
 
 #include "mainwindow.h"
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     mainWindow *mw = new mainWindow();
     mw->setWindowTitle(QWidget::tr("Прототип коммутатора"));
-    mw->resize(500, 500);
+    mw->resize(1000, 500);
     mw->show();
     return app.exec();
 }

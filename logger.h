@@ -1,21 +1,27 @@
-#ifndef LOGGER_H
+﻿#ifndef LOGGER_H
 #define LOGGER_H
 
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
-#include "mainwindow.h"
+#include <ctime>
+#include <chrono>
 
-class QFile;
-class QDataTime;
+class mainWindow;
+
 using namespace std;
 
 class Logger
 {
 public:
+    Logger();
     virtual ~Logger() {}
     virtual void log(const string &str) = 0;
-    QString GetDataTime();
-    QString GetTime();
+    string GetDataTime();
+    string GetTime();
+private:
+    clock_t start_t;
 };
 
 class ConsoleLogger : virtual public Logger
@@ -33,8 +39,7 @@ public:
     virtual ~FileLogger();
     void log(const string &str) override;
 private:
-    QFile *flog;
-    QTextStream *outfile;
+    ofstream *flog;
 };
 
 class WindowLogger : virtual public Logger

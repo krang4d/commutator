@@ -1,4 +1,4 @@
-#ifndef CENTERWIDGET_H
+﻿#ifndef CENTERWIDGET_H
 #define CENTERWIDGET_H
 
 #include <QVBoxLayout>
@@ -14,7 +14,7 @@ class CenterWidget : public QWidget
     Q_OBJECT
 public:
     CenterWidget(QWidget *parent = 0);
-    void setMessage(QString *msg);
+    void setMessage(QString msg);
 private:
     QLabel *MessageLabel;
     QTextEdit *MessageTextEdit;

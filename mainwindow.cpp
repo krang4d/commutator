@@ -1,10 +1,11 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 
+#include "centerwidget.h"
 #include "mswitch.h"
 #include "measurement.h"
-#include "logger.h"
 #include "powermanager.h"
 #include "composite.h"
+#include "logger.h"
 
 mainWindow::mainWindow()
 {
@@ -42,11 +43,26 @@ mainWindow::mainWindow()
     sb1->setText(tr("Привет!"));
     setMouseTracking(true);
 
+    log = new WindowLogger(this);
+    //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
+    //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
+    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало проверок. Дата ") + log->GetDataTime() + string("</div>");
+    log->log(msg);
+
+    sc = new Scenario();
+
     setCentralWidget(cw);
 
 }
-void mainWindow::setNextLine(QString *msg){
-    cw->setMessage(msg);
+
+mainWindow::~mainWindow()
+{
+    delete log;
+    delete sc;
+}
+
+void mainWindow::setNextLine(string msg){
+    cw->setMessage(QString(msg.c_str()));
 }
 
 void mainWindow::resizeEvent(QResizeEvent *event) {
@@ -69,12 +85,6 @@ void mainWindow::about() {
 
 void mainWindow::run()
 {
-    Logger *log(new AllLogger(this));
-    //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
-    QString msg = QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
-    log->log(msg.toStdString());
-
-
     IComposite::SPtr PowerON(new powermanager(log, 27));
     IComposite::SPtr PowerOFF(new powermanager(log, 0));
 
@@ -84,20 +94,17 @@ void mainWindow::run()
     IComposite::SPtr Y0(new mswitch(log,mswitch::Y0));
     IComposite::SPtr Y1(new mswitch(log,mswitch::Y1));
 
-    Scenario *s1 = new Scenario();
+    sc->add(PowerON);
+    sc->add(Y0);
+    sc->add(Volt);
+    sc->add(Resist);
+    sc->add(Y1);
+    sc->add(Volt);
+    sc->add(Resist);
+    sc->add(Y0);
+    sc->add(PowerOFF);
 
-    s1->add(PowerON);
-    s1->add(Y0);
-    s1->add(Volt);
-    s1->add(Resist);
-    s1->add(Y1);
-    s1->add(Volt);
-    s1->add(Resist);
-    s1->add(Y0);
-    s1->add(PowerOFF);
-
-    cout << "***Выполнение сценария s1***" << endl;
-    s1->action();
+    sc->action();
 }
 
 void mainWindow::view()

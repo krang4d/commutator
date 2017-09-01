@@ -1,10 +1,10 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QLabel>
 #include <QMenu>
-#include <QtGui>
+#include <QFile>
 #include <QTextCodec>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -12,9 +12,15 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QResizeEvent>
+#include <QProcess>
 #include <string>
-#include "centerwidget.h"
-#include "composite.h"
+
+class Scenario;
+class CenterWidget;
+class Logger;
+
+using std::string;
 
 class mainWindow : public QMainWindow
 {
@@ -22,7 +28,9 @@ class mainWindow : public QMainWindow
 
 public:
     explicit mainWindow();
-    void setNextLine(QString *);
+    ~mainWindow();
+    void setNextLine(string);
+
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -41,10 +49,14 @@ private:
     QLabel *sb1;
     QLabel *sb2;
     QLabel *sb3;
+
     CenterWidget *cw;
     Scenario *sc;
+    Logger *log;
 
     bool askClose();
+
+
 
 };
 
