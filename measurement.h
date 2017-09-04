@@ -1,4 +1,4 @@
-#ifndef MEASUREMENT_H
+﻿#ifndef MEASUREMENT_H
 #define MEASUREMENT_H
 
 #include "logger.h"

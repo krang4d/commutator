@@ -15,6 +15,8 @@ mainWindow::mainWindow()
     InitWindow();
     CreateScenario();
 
+    connect(startAction, SIGNAL(triggered(bool)), this, SLOT(run()));
+    connect(viewAction, SIGNAL(triggered(bool)), this, SLOT(view()));
     connect(aboutAction, SIGNAL(triggered(bool)), this, SLOT(about()));
     connect(exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(cw, SIGNAL(Exit()), this, SLOT(close()));
@@ -26,13 +28,18 @@ void mainWindow::InitWindow()
 {
     cw = new CenterWidget(this);
 
-    aboutAction = new QAction(tr("&O программе"), this);
+    startAction = new QAction(tr("Начать проверку"));
+    startAction->setShortcut(tr("Ctrl+R"));
+    viewAction = new QAction(tr("Прервать проверку"));
+    aboutAction = new QAction(tr("O программе"), this);
     aboutAction->setStatusTip(tr("Сведения о программе"));
-    exitAction = new QAction(tr("В&ыход"));
+    exitAction = new QAction(tr("Выход"));
     exitAction->setStatusTip(tr("Выход из программы"));
     exitAction->setShortcut(tr("Ctrl+Q"));
 
     fileMenu = menuBar()->addMenu(tr("&Файл"));
+    fileMenu->addAction(startAction);
+    fileMenu->addAction(viewAction);
     fileMenu->addAction(aboutAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
@@ -52,7 +59,7 @@ void mainWindow::InitWindow()
     log = new AllLogger(this);
     //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
     //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
-    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало проверок. Дата ") + log->GetDataTime() + string("</div>");
+    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало проверок. ") + log->GetDateTime() + string("</div>");
     log->log(msg);
 
     setCentralWidget(cw);

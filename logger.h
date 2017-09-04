@@ -18,7 +18,7 @@ public:
     Logger();
     virtual ~Logger() {}
     virtual void log(const string &str) = 0;
-    string GetDataTime();
+    string GetDateTime();
     string GetTime();
 private:
     clock_t start_t;

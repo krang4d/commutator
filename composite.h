@@ -15,6 +15,7 @@ public:
     typedef std::shared_ptr<IComposite> SPtr;
 
     IComposite();
+    virtual ~IComposite() {}
     virtual void action() = 0;
     virtual void add(const SPtr&);
     virtual void remove(const SPtr&);
@@ -27,7 +28,8 @@ private:
 class Scenario: public IComposite{
 
 public:
-    Scenario();
+
+    virtual ~Scenario() {}
     void add(const SPtr& sptr);
     void remove(const SPtr& sptr);
     void replace(const SPtr& oldValue, const SPtr& newValue);

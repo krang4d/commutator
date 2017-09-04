@@ -18,11 +18,6 @@ bool IComposite::nextAction()
     return _next;
 }
 
-Scenario::Scenario()
-{
-
-}
-
 void Scenario::add(const SPtr& sptr){
     children_.push_back(sptr);
 }

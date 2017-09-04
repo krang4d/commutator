@@ -1,4 +1,4 @@
-#ifndef MSWITCH_H
+﻿#ifndef MSWITCH_H
 #define MSWITCH_H
 
 #include "composite.h"

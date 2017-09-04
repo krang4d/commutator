@@ -16,6 +16,8 @@ public:
     CenterWidget(QWidget *parent = 0);
     void setMessage(QString msg);
 private:
+    QLabel *Connection;
+    QLabel *BodePower;
     QLabel *MessageLabel;
     QTextEdit *MessageTextEdit;
     QPushButton *StartButton;
@@ -28,7 +30,6 @@ signals:
     void Exit();
     void View();
     void Start();
-public slots:
 };
 
 #endif // CENTERWIDGET_H

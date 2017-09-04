@@ -74,17 +74,21 @@ void AllLogger::log(const string &str)
     wl->log(str);
 }
 
-string Logger::GetDataTime()
+string Logger::GetDateTime()
 {
-//    QDateTime dt = QDateTime::currentDateTime();
-//    return dt.toString("Время hh:mm:ss, Дата dd.MM.yyyy");
-      return string("08.08.1984");
+    std::time_t now = std::time(NULL);
+    std::tm *tm = std::localtime(&now);
+    constexpr int bufsize = 100;
+    char buf[bufsize];
+    if(std::strftime(buf, bufsize, "Дата %d.%m.%Y Врем %T", tm) != 0)
+    {
+        return buf;
+    }
+    return string("Error: GetDateTime()");
 }
 
 string Logger::GetTime()
 {
-//    QTime dt = QTime::currentTime();
-//    return dt.toString("Время hh:mm:ss.zzz");
     std::time_t now = std::time(NULL);
     std::tm *tm = std::localtime(&now);
     constexpr int bufsize = 100;
@@ -94,4 +98,6 @@ string Logger::GetTime()
         double now = (int)(difftime(clock(), start_t)) % int(CLOCKS_PER_SEC);
         return (buf + string(".") + std::to_string((int)now)); // + string(" CLOCKS_PER_SEC = ") + std::to_string(int(CLOCKS_PER_SEC)));
     }
+    delete tm;
+    return string("Error: LoggerGetTime()");
 }

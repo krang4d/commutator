@@ -46,8 +46,11 @@ private slots:
     void view();
 
 private:
-    QAction *aboutAction;
+    QAction *startAction;
+    QAction *viewAction;
     QAction *exitAction;
+    QAction *aboutAction;
+
     QMenu *fileMenu;
     QLabel *sb1;
     QLabel *sb2;

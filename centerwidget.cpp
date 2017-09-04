@@ -27,12 +27,8 @@ void CenterWidget::setupLayout(){
     slaveLayout->addWidget(ExitButton);
     masterLayout->addLayout(slaveLayout);
     setLayout(masterLayout);
-    qDebug() << QString("setupLayout()");
 }
 
 void CenterWidget::setMessage(QString msg){
-    //qDebug() << msg->toUtf8();
-    //MessageTextEdit->setText(msg->toUtf8());
-    //MessageTextEdit->setText(msg->toUtf8());
     MessageTextEdit->setText(msg);
 }
