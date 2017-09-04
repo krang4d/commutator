@@ -1,15 +1,13 @@
 ﻿#include "logger.h"
 #include "mainwindow.h"
 
-class OpenFileError {};
+class CannotOpenFile {};
 class FileNotOpen {};
-class FileOpened {};
 
 Logger::Logger()
 {
     start_t = clock();
 }
-
 void ConsoleLogger::log(const string &str)
 {
     cout << str << endl;
@@ -17,44 +15,23 @@ void ConsoleLogger::log(const string &str)
 
 FileLogger::FileLogger()
 {
-    flog = new ofstream("Commutator.html");
-    if (flog->is_open()) throw FileOpened();
-    flog->open("Commutator.html");
-    if(!flog) throw OpenFileError();
+    flog = new ofstream();
 }
 
 FileLogger::~FileLogger()
 {
-    flog->close();
     delete flog;
 }
 
 void FileLogger::log(const string &str)
 {
-//    if(flog->isOpen())
-//    {
-//        flog->close();
-//    }
+//string *c = const_cast<string*>(&str);
 
-//    if(flog->exists())
-//    {
-//        cout << "Файл уже существует." << endl;
-//    }
-    //if(!flog->open(QIODevice::Append | QIODevice::Text ))
-    //{
-    //    cout << "Ошибка открытия log файла."<< endl;
-    //}
-    //outfile = new QTextStream(flog);
-
-    //QTextCodec *codec = QTextCodec::codecForHtml("UTF-8");
-    //QTextCodec::setCodecForLocale(codec);
-    //outfile->setCodec(codec);
-    //string *c = const_cast<string*>(&str);
-    //(*outfile) << (c->c_str());
-    //flog->write("\n");
-    //flog->close();
-    if(!flog->is_open()) throw FileNotOpen();
-    (*flog) << str << "\n";
+    flog->open("Commutator.html",ios_base::ate | ios_base::app);
+    if(!flog) throw CannotOpenFile();
+    //if(!flog->is_open()) throw FileNotOpen();
+    flog->write(str.c_str(), str.size());
+    flog->close();
 }
 
 WindowLogger::WindowLogger(mainWindow *_mv) :  mw(_mv), vstr(0)
@@ -115,7 +92,6 @@ string Logger::GetTime()
     if(std::strftime(buf, bufsize, "Врем %T", tm) != 0)
     {
         double now = (int)(difftime(clock(), start_t)) % int(CLOCKS_PER_SEC);
-
-        return (buf + string(".") + std::to_string((int)now));// + string(" CLOCKS_PER_SEC = ") + std::to_string(int(CLOCKS_PER_SEC)));
+        return (buf + string(".") + std::to_string((int)now)); // + string(" CLOCKS_PER_SEC = ") + std::to_string(int(CLOCKS_PER_SEC)));
     }
 }

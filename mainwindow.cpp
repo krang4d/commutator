@@ -9,22 +9,28 @@
 
 mainWindow::mainWindow()
 {
-    QTextCodec *codec = QTextCodec::codecForName("UTF8");
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
 
-    cw = new CenterWidget(this);
-    aboutAction = new QAction(tr("&O программе"), this);
-    aboutAction->setStatusTip(tr("Сведения о программе"));
+    InitWindow();
+    CreateScenario();
+
     connect(aboutAction, SIGNAL(triggered(bool)), this, SLOT(about()));
-
-    exitAction = new QAction(tr("В&ыход"));
-    exitAction->setStatusTip(tr("Выход из программы"));
-    exitAction->setShortcut(tr("Ctrl+Q"));
-
     connect(exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(cw, SIGNAL(Exit()), this, SLOT(close()));
     connect(cw, SIGNAL(Start()), this, SLOT(run()));
     connect(cw, SIGNAL(View()), this, SLOT(view()));
+}
+
+void mainWindow::InitWindow()
+{
+    cw = new CenterWidget(this);
+
+    aboutAction = new QAction(tr("&O программе"), this);
+    aboutAction->setStatusTip(tr("Сведения о программе"));
+    exitAction = new QAction(tr("В&ыход"));
+    exitAction->setStatusTip(tr("Выход из программы"));
+    exitAction->setShortcut(tr("Ctrl+Q"));
 
     fileMenu = menuBar()->addMenu(tr("&Файл"));
     fileMenu->addAction(aboutAction);
@@ -43,16 +49,37 @@ mainWindow::mainWindow()
     sb1->setText(tr("Привет!"));
     setMouseTracking(true);
 
-    log = new WindowLogger(this);
+    log = new AllLogger(this);
     //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
     //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
     string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало проверок. Дата ") + log->GetDataTime() + string("</div>");
     log->log(msg);
 
+    setCentralWidget(cw);
+}
+
+void mainWindow::CreateScenario()
+{
     sc = new Scenario();
 
-    setCentralWidget(cw);
+    IComposite::SPtr PowerON(new powermanager(log, 27));
+    IComposite::SPtr PowerOFF(new powermanager(log, 0));
 
+    IComposite::SPtr Volt(new measurement(log, measurement::VOLT));
+    IComposite::SPtr Resist(new measurement(log, measurement::RESIST));
+
+    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0));
+    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1));
+
+    sc->add(PowerON);
+    sc->add(Y0);
+    sc->add(Volt);
+    sc->add(Resist);
+    sc->add(Y1);
+    sc->add(Volt);
+    sc->add(Resist);
+    sc->add(Y0);
+    sc->add(PowerOFF);
 }
 
 mainWindow::~mainWindow()
@@ -85,25 +112,6 @@ void mainWindow::about() {
 
 void mainWindow::run()
 {
-    IComposite::SPtr PowerON(new powermanager(log, 27));
-    IComposite::SPtr PowerOFF(new powermanager(log, 0));
-
-    IComposite::SPtr Volt(new measurement(log, measurement::VOLT));
-    IComposite::SPtr Resist(new measurement(log, measurement::RESIST));
-
-    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0));
-    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1));
-
-    sc->add(PowerON);
-    sc->add(Y0);
-    sc->add(Volt);
-    sc->add(Resist);
-    sc->add(Y1);
-    sc->add(Volt);
-    sc->add(Resist);
-    sc->add(Y0);
-    sc->add(PowerOFF);
-
     sc->action();
 }
 
@@ -131,3 +139,4 @@ void mainWindow::closeEvent(QCloseEvent *event) {
     event->ignore();
     }
 }
+

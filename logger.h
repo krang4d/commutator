@@ -29,7 +29,7 @@ class ConsoleLogger : virtual public Logger
 public:
     ConsoleLogger() {}
     virtual ~ConsoleLogger() {}
-    void log(const string &str) override;
+    virtual void log(const string &str) override;
 };
 
 class FileLogger : virtual public Logger
@@ -37,7 +37,7 @@ class FileLogger : virtual public Logger
 public:
     FileLogger();
     virtual ~FileLogger();
-    void log(const string &str) override;
+    virtual void log(const string &str) override;
 private:
     ofstream *flog;
 };
@@ -47,7 +47,7 @@ class WindowLogger : virtual public Logger
 public:
     WindowLogger(mainWindow *_mv);
     virtual ~WindowLogger() {}
-    void log(const string &str) override;
+    virtual void log(const string &str) override;
 protected:
     mainWindow *mw;
     vector<string> vstr;
@@ -58,7 +58,7 @@ class AllLogger : virtual public Logger
 public:
     AllLogger(mainWindow *mv);
     virtual ~AllLogger();
-    void log(const string &str);
+    virtual void log(const string &str);
 protected:
     WindowLogger *wl;
     FileLogger *fl;

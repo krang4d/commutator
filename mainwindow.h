@@ -37,6 +37,9 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void closeEvent(QCloseEvent *event);
 
+    void InitWindow();
+    void CreateScenario();
+
 private slots:
     void about();
     void run();
