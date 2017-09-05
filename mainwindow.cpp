@@ -16,7 +16,7 @@ mainWindow::mainWindow()
     CreateScenario();
 
     connect(startAction, SIGNAL(triggered(bool)), this, SLOT(run()));
-    connect(viewAction, SIGNAL(triggered(bool)), this, SLOT(view()));
+    connect(viewAction, SIGNAL(triggered(bool)), cw, SLOT(DockingChange(bool)));
     connect(aboutAction, SIGNAL(triggered(bool)), this, SLOT(about()));
     connect(exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(cw, SIGNAL(Exit()), this, SLOT(close()));
@@ -30,7 +30,7 @@ void mainWindow::InitWindow()
 
     startAction = new QAction(tr("Начать проверку"));
     startAction->setShortcut(tr("Ctrl+R"));
-    viewAction = new QAction(tr("Прервать проверку"));
+    viewAction = new QAction(tr("Просмотреть файл"));
     aboutAction = new QAction(tr("O программе"), this);
     aboutAction->setStatusTip(tr("Сведения о программе"));
     exitAction = new QAction(tr("Выход"));
@@ -95,25 +95,28 @@ mainWindow::~mainWindow()
     delete sc;
 }
 
-void mainWindow::setNextLine(string msg){
+void mainWindow::setNextLine(string msg)
+{
     cw->setMessage(QString(msg.c_str()));
 }
 
-void mainWindow::resizeEvent(QResizeEvent *event) {
+void mainWindow::resizeEvent(QResizeEvent *event)
+{
     QSize sz = event->size();
     sb2->setText(QString( "(%1, %2)" ).arg( sz.width() ).arg( sz.height() ) );
 }
 
-void mainWindow::mouseMoveEvent(QMouseEvent *event) {
+void mainWindow::mouseMoveEvent(QMouseEvent *event)
+{
     QPoint pos = event->pos();
     sb3->setText(QString( "%1, %2" ).arg( pos.x() ).arg( pos.y() ) );
 }
 
-void mainWindow::about() {
+void mainWindow::about()
+{
     QMessageBox::about(
     this, tr("О программе"),
-    tr("<p><b>Назначение:</b> Программа предназначена для проверки модуля сопряжения МС-54.011 КИНД.468354.011 из состава блока БУСС-32.054"
-       "КИНД.468332.054 аппаратуры второго рабочего места КПА-166-09</p>"
+    tr("<p><b>Назначение:</b> Программа предназначена для проверки модуля сопряжения МС-XX.XXX КИНД.XXXXXX.XXX из состава аппаратуры входного контроля КПА-XXX.XX</p>"
        "<p><b>Автор:</b> Головкин П.Г.</p>"));
 }
 
@@ -129,7 +132,8 @@ void mainWindow::view()
     vim.waitForFinished();
 }
 
-bool mainWindow::askClose() {
+bool mainWindow::askClose()
+{
     int r = QMessageBox::question(this, tr("Подтвердите"),
     tr("Выйти из программы?"),
     QMessageBox::Yes | QMessageBox::No);
@@ -138,12 +142,9 @@ bool mainWindow::askClose() {
     return (r == QMessageBox::Yes);
 }
 
-void mainWindow::closeEvent(QCloseEvent *event) {
-    if (askClose()) {
-    event->accept();
-    }
-    else {
-    event->ignore();
-    }
+void mainWindow::closeEvent(QCloseEvent *event)
+{
+    if (askClose()) { event->accept(); }
+    else { event->ignore(); }
 }
 

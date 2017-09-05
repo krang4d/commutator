@@ -8,6 +8,7 @@
 #include <QTextEdit>
 #include <QDebug>
 #include <QString>
+#include <QSpacerItem>
 
 class CenterWidget : public QWidget
 {
@@ -16,8 +17,9 @@ public:
     CenterWidget(QWidget *parent = 0);
     void setMessage(QString msg);
 private:
-    QLabel *Connection;
-    QLabel *BodePower;
+    QSpacerItem *Spacer;
+    QLabel *Docking;
+    QLabel *BodyPower;
     QLabel *MessageLabel;
     QTextEdit *MessageTextEdit;
     QPushButton *StartButton;
@@ -30,6 +32,10 @@ signals:
     void Exit();
     void View();
     void Start();
+
+public slots:
+    void DockingChange(bool);
+    void BodyPowerChange(bool);
 };
 
 #endif // CENTERWIDGET_H
