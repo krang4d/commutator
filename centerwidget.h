@@ -15,11 +15,17 @@ class CenterWidget : public QWidget
     Q_OBJECT
 public:
     CenterWidget(QWidget *parent = 0);
+    virtual ~CenterWidget();
     void setMessage(QString msg);
 private:
+    QVBoxLayout *masterLayout;
+    QVBoxLayout *ledSlaveVLayout;
+    QHBoxLayout *ledSlaveHLayout;
+    QHBoxLayout *buttonSlaveLayout;
+
     QSpacerItem *Spacer;
-    QLabel *Docking;
-    QLabel *BodyPower;
+    QLabel *DockingLed;
+    QLabel *BodyPowerLed;
     QLabel *MessageLabel;
     QTextEdit *MessageTextEdit;
     QPushButton *StartButton;

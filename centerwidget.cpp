@@ -9,9 +9,27 @@ CenterWidget::CenterWidget(QWidget *parent) : QWidget(parent)
     connect(ViewButton, SIGNAL(pressed()), this, SIGNAL(View()));
 }
 
+CenterWidget::~CenterWidget()
+{
+    delete Spacer;
+    delete DockingLed;
+    delete BodyPowerLed;
+    delete MessageLabel;
+    delete MessageTextEdit;
+    delete StartButton;
+    delete ViewButton;
+    delete ExitButton;
+
+    delete buttonSlaveLayout;
+    delete ledSlaveHLayout;
+    delete ledSlaveVLayout;
+    delete masterLayout;
+
+}
+
 void CenterWidget::setupLayout(){
     //Layout setup
-    QVBoxLayout *masterLayout = new QVBoxLayout;
+    masterLayout = new QVBoxLayout;
 
     MessageLabel = new QLabel(tr("Cообщения оператору"));
     MessageLabel->setFont(QFont("Courier", 14));
@@ -20,23 +38,26 @@ void CenterWidget::setupLayout(){
     MessageTextEdit->setFont(QFont("Courier", 14));
     MessageTextEdit->setReadOnly(true);
 
-    QHBoxLayout *ledSlaveLayout = new QHBoxLayout;
-    Spacer = new QSpacerItem(500,30);
-    Docking = new QLabel(tr("Стыковка"));
-    Docking->setStyleSheet(tr("border-radius: 10px; background-color: #ff2200;"));
-    Docking->setAlignment(Qt::AlignCenter);
-    Docking->setFont(QFont("Courier", 14, QFont::Bold, true));
-    Docking->resize(20, 20);
-    BodyPower =  new QLabel(tr("Корпус"));
-    BodyPower->setStyleSheet(tr("border-radius: 10px; background-color: #00ff00;"));
-    BodyPower->setAlignment(Qt::AlignCenter);
-    BodyPower->setFont(QFont("Courier", 14, QFont::Bold, true));
+    ledSlaveVLayout = new QVBoxLayout;
+    ledSlaveHLayout = new QHBoxLayout;
 
-    ledSlaveLayout->addSpacerItem(Spacer);
-    ledSlaveLayout->addWidget(Docking);
-    ledSlaveLayout->addWidget(BodyPower);
+    Spacer = new QSpacerItem(100, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
+    DockingLed = new QLabel(tr("Стыковка"));
+    DockingLed->setStyleSheet(tr("border-radius: 10px; background-color: #ff2200;"));
+    DockingLed->setAlignment(Qt::AlignCenter);
+    DockingLed->setFont(QFont("Courier", 14, QFont::Bold, true));
+    //DockingLed->resize(100, 50);
+    BodyPowerLed =  new QLabel(tr("Корпус"));
+    BodyPowerLed->setStyleSheet(tr("border-radius: 10px; background-color: #00ff00;"));
+    BodyPowerLed->setAlignment(Qt::AlignCenter);
+    BodyPowerLed->setFont(QFont("Courier", 14, QFont::Bold, true));
 
-    QHBoxLayout *buttonSlaveLayout = new QHBoxLayout;
+    ledSlaveHLayout->addSpacerItem(Spacer);
+    ledSlaveVLayout->addWidget(DockingLed);
+    ledSlaveVLayout->addWidget(BodyPowerLed);
+    ledSlaveHLayout->addLayout(ledSlaveVLayout);
+
+    buttonSlaveLayout = new QHBoxLayout;
     StartButton = new QPushButton(tr("Начать проверку"));
     StartButton->setFont(QFont("Courier", 14));
     ViewButton = new QPushButton(tr("Просмотреть файл"));
@@ -47,23 +68,23 @@ void CenterWidget::setupLayout(){
     buttonSlaveLayout->addWidget(ViewButton);
     buttonSlaveLayout->addWidget(ExitButton);
 
-    masterLayout->addLayout(ledSlaveLayout);
+    masterLayout->addLayout(ledSlaveHLayout);
     masterLayout->addWidget(MessageLabel);
     masterLayout->addWidget(MessageTextEdit);
     masterLayout->addLayout(buttonSlaveLayout);
-    setLayout(masterLayout);
+    this->setLayout(masterLayout);
 }
 
 void CenterWidget::DockingChange(bool b)
 {
-    if(b) Docking->setStyleSheet("border-radius: 10px; background-color: #ff0000;");
-    else Docking->setStyleSheet("border-radius: 10px; background-color: #00ff00;");
+    if(b) DockingLed->setStyleSheet("border-radius: 10px; background-color: #ff0000;");
+    else DockingLed->setStyleSheet("border-radius: 10px; background-color: #00ff00;");
 }
 
 void CenterWidget::BodyPowerChange(bool b)
 {
-    if(b) BodyPower->setStyleSheet("border-radius: 10px; background-color: #ff0000;");
-    else BodyPower->setStyleSheet("border-radius: 10px; background-color: #00ff00;");
+    if(b) BodyPowerLed->setStyleSheet("border-radius: 10px; background-color: #ff0000;");
+    else BodyPowerLed->setStyleSheet("border-radius: 10px; background-color: #00ff00;");
 }
 
 void CenterWidget::setMessage(QString msg){

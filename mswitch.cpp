@@ -16,7 +16,6 @@ void mswitch::switchChannel(channel ch)
     string str = "<div>Подключение канала - Y" + to_string(ch) +\
             ".    " + _plog->GetTime() + "</div>";
     _plog->log(str);
-
 }
 
 mswitch::channel mswitch::getChannel() const

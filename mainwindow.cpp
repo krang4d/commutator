@@ -16,7 +16,7 @@ mainWindow::mainWindow()
     CreateScenario();
 
     connect(startAction, SIGNAL(triggered(bool)), this, SLOT(run()));
-    connect(viewAction, SIGNAL(triggered(bool)), cw, SLOT(DockingChange(bool)));
+    connect(viewAction, SIGNAL(triggered(bool)), this, SLOT(view()));
     connect(aboutAction, SIGNAL(triggered(bool)), this, SLOT(about()));
     connect(exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(cw, SIGNAL(Exit()), this, SLOT(close()));
@@ -40,9 +40,13 @@ void mainWindow::InitWindow()
     fileMenu = menuBar()->addMenu(tr("&Файл"));
     fileMenu->addAction(startAction);
     fileMenu->addAction(viewAction);
-    fileMenu->addAction(aboutAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
+
+    HelpMenu = menuBar()->addMenu(tr("&Спаравка"));
+    HelpMenu->addAction(aboutAction);
+
+
 
     sb1 = new QLabel(statusBar());
     sb2 = new QLabel(statusBar());

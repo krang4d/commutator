@@ -52,6 +52,7 @@ private:
     QAction *aboutAction;
 
     QMenu *fileMenu;
+    QMenu *HelpMenu;
     QLabel *sb1;
     QLabel *sb2;
     QLabel *sb3;

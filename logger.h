@@ -45,7 +45,7 @@ private:
 class WindowLogger : virtual public Logger
 {
 public:
-    WindowLogger(mainWindow *_mv);
+    explicit WindowLogger(mainWindow *_mv);
     virtual ~WindowLogger() {}
     virtual void log(const string &str) override;
 protected:
@@ -56,7 +56,7 @@ protected:
 class AllLogger : virtual public Logger
 {
 public:
-    AllLogger(mainWindow *mv);
+    explicit AllLogger(mainWindow *mv);
     virtual ~AllLogger();
     virtual void log(const string &str);
 protected:
