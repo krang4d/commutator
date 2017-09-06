@@ -19,6 +19,7 @@
 class Scenario;
 class CenterWidget;
 class Logger;
+class Subject;
 
 using std::string;
 
@@ -60,6 +61,7 @@ private:
     CenterWidget *cw;
     Scenario *sc;
     Logger *log;
+    Subject *control_value;
 
     bool askClose();
 

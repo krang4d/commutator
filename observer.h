@@ -2,6 +2,7 @@
 #define OBSERVER_H
 
 #include <vector>
+#include "logger.h"
 
 using namespace std;
 
@@ -10,6 +11,7 @@ class Observer;
 class Subject
 {
 public:
+    Subject(Logger *log);
     void attach(Observer *obs);
     void setBodyPower(bool);
     void setDock(bool);
@@ -19,6 +21,7 @@ public:
 
 protected:
     vector<Observer *> views;
+    Logger *plog;
     bool BodyPower;
     bool Dock;
 };

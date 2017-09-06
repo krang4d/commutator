@@ -23,5 +23,5 @@ void powermanager::action()
 
 void powermanager::update()
 {
-    _next = getSubject()->getBodyPower() || getSubject()->getDock();
+    _next = getSubject()->getBodyPower() && getSubject()->getDock();
 }

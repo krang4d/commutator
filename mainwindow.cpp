@@ -70,21 +70,21 @@ void mainWindow::InitWindow()
 
 void mainWindow::CreateScenario()
 {
-    Subject *con = new Subject;
+    control_value = new Subject(log);
+
+    IComposite::SPtr PowerON(new powermanager(log, 27, control_value));
+    IComposite::SPtr PowerOFF(new powermanager(log, 0, control_value));
+
+    IComposite::SPtr Volt(new measurement(log, measurement::VOLT, control_value));
+    IComposite::SPtr Resist(new measurement(log, measurement::RESIST, control_value));
+
+    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0, control_value));
+    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1, control_value));
+
+    control_value->setBodyPower(true);
+    control_value->setDock(false);
+
     sc = new Scenario();
-
-    IComposite::SPtr PowerON(new powermanager(log, 27, con));
-    IComposite::SPtr PowerOFF(new powermanager(log, 0, con));
-
-    IComposite::SPtr Volt(new measurement(log, measurement::VOLT, con));
-    IComposite::SPtr Resist(new measurement(log, measurement::RESIST, con));
-
-    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0, con));
-    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1, con));
-
-    con->setBodyPower(false);
-    con->setDock(false);
-
     sc->add(PowerON);
     sc->add(Y0);
     sc->add(Volt);
