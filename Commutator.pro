@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     powermanager.cpp \
     composite.cpp \
     centerwidget.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    observer.cpp
 
 HEADERS += \
     measurement.h \
@@ -19,4 +20,5 @@ HEADERS += \
     powermanager.h \
     composite.h \
     centerwidget.h \
-    mainwindow.h
+    mainwindow.h \
+    observer.h

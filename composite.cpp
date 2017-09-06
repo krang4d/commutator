@@ -13,7 +13,7 @@ void IComposite::remove(const SPtr&){
     throw std::runtime_error("IText: Can't remove from a leaf");
 }
 
-bool IComposite::nextAction()
+bool IComposite::getNext()
 {
     return _next;
 }
@@ -32,7 +32,7 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 
 void Scenario::action(){
     for(SPtr& sptr : children_){
-        if (!sptr->nextAction()) throw AbortScenario();
+        if (!sptr->getNext()) throw AbortScenario();
         sptr->action();
     }
 }

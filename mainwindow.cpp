@@ -6,6 +6,7 @@
 #include "powermanager.h"
 #include "composite.h"
 #include "logger.h"
+#include "observer.h"
 
 mainWindow::mainWindow()
 {
@@ -46,8 +47,6 @@ void mainWindow::InitWindow()
     HelpMenu = menuBar()->addMenu(tr("&Спаравка"));
     HelpMenu->addAction(aboutAction);
 
-
-
     sb1 = new QLabel(statusBar());
     sb2 = new QLabel(statusBar());
     sb3 = new QLabel(statusBar());
@@ -71,16 +70,20 @@ void mainWindow::InitWindow()
 
 void mainWindow::CreateScenario()
 {
+    Subject *con = new Subject;
     sc = new Scenario();
 
-    IComposite::SPtr PowerON(new powermanager(log, 27));
-    IComposite::SPtr PowerOFF(new powermanager(log, 0));
+    IComposite::SPtr PowerON(new powermanager(log, 27, con));
+    IComposite::SPtr PowerOFF(new powermanager(log, 0, con));
 
-    IComposite::SPtr Volt(new measurement(log, measurement::VOLT));
-    IComposite::SPtr Resist(new measurement(log, measurement::RESIST));
+    IComposite::SPtr Volt(new measurement(log, measurement::VOLT, con));
+    IComposite::SPtr Resist(new measurement(log, measurement::RESIST, con));
 
-    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0));
-    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1));
+    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0, con));
+    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1, con));
+
+    con->setBodyPower(false);
+    con->setDock(false);
 
     sc->add(PowerON);
     sc->add(Y0);

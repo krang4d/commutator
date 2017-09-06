@@ -19,13 +19,13 @@ public:
     virtual void action() = 0;
     virtual void add(const SPtr&);
     virtual void remove(const SPtr&);
-    virtual bool nextAction();
-
-private:
+    bool getNext();
+protected:
     bool _next;
 };
 
-class Scenario: public IComposite{
+class Scenario: public IComposite
+{
 
 public:
 
@@ -33,7 +33,6 @@ public:
     void add(const SPtr& sptr);
     void remove(const SPtr& sptr);
     void replace(const SPtr& oldValue, const SPtr& newValue);
-
     virtual void action();
 
 private:

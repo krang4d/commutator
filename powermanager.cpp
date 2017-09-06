@@ -4,7 +4,7 @@
 
 using namespace std;
 
-powermanager::powermanager(Logger *log, double current_voltage) : _plog(log), _current_voltage(current_voltage)
+powermanager::powermanager(Logger *log, double current_voltage, Subject *con) : _plog(log), _current_voltage(current_voltage), Observer(con)
 {
 
 }
@@ -19,4 +19,9 @@ void powermanager::setVoltage(double v)
 void powermanager::action()
 {
     setVoltage(_current_voltage);
+}
+
+void powermanager::update()
+{
+    _next = getSubject()->getBodyPower() || getSubject()->getDock();
 }

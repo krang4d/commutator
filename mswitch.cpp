@@ -4,8 +4,8 @@
 
 using namespace std;
 
-mswitch::mswitch(Logger *log, channel ch)
-    : current_channel(ch), _plog(log)
+mswitch::mswitch(Logger *log, channel ch, Subject *con)
+    : current_channel(ch), _plog(log), Observer(con)
 {
 
 }
@@ -31,4 +31,9 @@ void mswitch::setDefault()
 void mswitch::action()
 {
     switchChannel(current_channel);
+}
+
+void mswitch::update()
+{
+     _next = getSubject()->getBodyPower() || getSubject()->getDock();
 }

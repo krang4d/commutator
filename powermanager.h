@@ -3,13 +3,16 @@
 
 #include "logger.h"
 #include "composite.h"
-class powermanager : public IComposite
+#include "observer.h"
+
+class powermanager : public IComposite, public Observer
 {
 public:
-    powermanager(Logger *log, double current_voltage);
+    powermanager(Logger *log, double current_voltage, Subject *con);
     void setVoltage(double v);
 
     virtual void action() override;
+    virtual void update() override;
 
 protected:
     Logger *_plog;
