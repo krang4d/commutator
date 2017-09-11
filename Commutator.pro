@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     composite.cpp \
     centerwidget.cpp \
     mainwindow.cpp \
-    observer.cpp
+    observer.cpp \
+    tools.cpp
 
 HEADERS += \
     measurement.h \
@@ -21,4 +22,8 @@ HEADERS += \
     composite.h \
     centerwidget.h \
     mainwindow.h \
-    observer.h
+    observer.h \
+    tools.h
+
+FORMS += \
+    tools.ui

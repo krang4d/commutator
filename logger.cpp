@@ -74,7 +74,7 @@ void AllLogger::log(const string &str)
     wl->log(str);
 }
 
-string Logger::GetDateTime()
+string Logger::GetDateTime() const
 {
     std::time_t now = std::time(NULL);
     std::tm *tm = std::localtime(&now);

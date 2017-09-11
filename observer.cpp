@@ -1,6 +1,6 @@
 ﻿#include "observer.h"
 
-Subject::Subject(Logger *log) : plog(log)
+Subject::Subject(Logger *log) : plog(log), BodyPower(false), Dock(false)
 {
 
 }
@@ -14,6 +14,7 @@ void Subject::setBodyPower(bool bp)
 {
     BodyPower = bp;
     if(!bp) plog->log("<div>Крпус <span style='color:#ff0000;'>БРАК </span>" + plog->GetTime() + "</div>");
+    if(bp) plog->log("<div>Крпус <span style='color:#00ff00;'>НОРМА </span>" + plog->GetTime() + "</div>");
     notify();
 }
 
@@ -21,6 +22,7 @@ void Subject::setDock(bool d)
 {
     Dock = d;
     if(!d) plog->log("<div>Стыковка <span style='color:#ff0000;'>БРАК </span>" + plog->GetTime() + "</div>");
+    if(d) plog->log("<div>Стыковка <span style='color:#00ff00;'>НОРМА </span>" + plog->GetTime() + "</div>");
     notify();
 }
 

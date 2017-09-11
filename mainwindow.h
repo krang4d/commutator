@@ -14,6 +14,7 @@
 #include <QPushButton>
 #include <QResizeEvent>
 #include <QProcess>
+#include <QTimer>
 #include <string>
 
 class Scenario;
@@ -32,7 +33,6 @@ public:
     ~mainWindow();
     void setNextLine(string);
 
-
 protected:
     virtual void resizeEvent(QResizeEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
@@ -45,12 +45,15 @@ private slots:
     void about();
     void run();
     void view();
+    void toolsWindow();
+    void updateTimer();
 
 private:
     QAction *startAction;
     QAction *viewAction;
     QAction *exitAction;
     QAction *aboutAction;
+    QAction *toolsAction;
 
     QMenu *fileMenu;
     QMenu *HelpMenu;
@@ -63,6 +66,7 @@ private:
     Logger *log;
     Subject *control_value;
 
+    QTimer *tm;
     bool askClose();
 
 

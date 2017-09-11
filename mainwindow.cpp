@@ -7,6 +7,7 @@
 #include "composite.h"
 #include "logger.h"
 #include "observer.h"
+#include "tools.h"
 
 mainWindow::mainWindow()
 {
@@ -23,15 +24,21 @@ mainWindow::mainWindow()
     connect(cw, SIGNAL(Exit()), this, SLOT(close()));
     connect(cw, SIGNAL(Start()), this, SLOT(run()));
     connect(cw, SIGNAL(View()), this, SLOT(view()));
+    connect(toolsAction, SIGNAL(triggered(bool)), this, SLOT(toolsWindow()));
+    connect(tm, SIGNAL(timeout()), this, SLOT(updateTimer()));
 }
 
 void mainWindow::InitWindow()
 {
     cw = new CenterWidget(this);
+    tm = new QTimer(this);
+    tm->setInterval(200);
+    tm->start();
 
     startAction = new QAction(tr("Начать проверку"));
     startAction->setShortcut(tr("Ctrl+R"));
     viewAction = new QAction(tr("Просмотреть файл"));
+    toolsAction = new QAction(tr("Дополнительные возможности"));
     aboutAction = new QAction(tr("O программе"), this);
     aboutAction->setStatusTip(tr("Сведения о программе"));
     exitAction = new QAction(tr("Выход"));
@@ -40,6 +47,7 @@ void mainWindow::InitWindow()
 
     fileMenu = menuBar()->addMenu(tr("&Файл"));
     fileMenu->addAction(startAction);
+    fileMenu->addAction(toolsAction);
     fileMenu->addAction(viewAction);
     fileMenu->addSeparator();
     fileMenu->addAction(exitAction);
@@ -65,13 +73,13 @@ void mainWindow::InitWindow()
     string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало проверок. ") + log->GetDateTime() + string("</div>");
     log->log(msg);
 
+    control_value = new Subject(log);
+
     setCentralWidget(cw);
 }
 
 void mainWindow::CreateScenario()
 {
-    control_value = new Subject(log);
-
     IComposite::SPtr PowerON(new powermanager(log, 27, control_value));
     IComposite::SPtr PowerOFF(new powermanager(log, 0, control_value));
 
@@ -80,9 +88,6 @@ void mainWindow::CreateScenario()
 
     IComposite::SPtr Y0(new mswitch(log,mswitch::Y0, control_value));
     IComposite::SPtr Y1(new mswitch(log,mswitch::Y1, control_value));
-
-    control_value->setBodyPower(true);
-    control_value->setDock(false);
 
     sc = new Scenario();
     sc->add(PowerON);
@@ -137,6 +142,18 @@ void mainWindow::view()
     QProcess vim;
     vim.startDetached("google-chrome Commutator.html");
     vim.waitForFinished();
+}
+
+void mainWindow::toolsWindow()
+{
+    tools *t = new tools(control_value);
+    t->show();
+}
+
+void mainWindow::updateTimer()
+{
+    cw->DockingChange(!control_value->getDock());
+    cw->BodyPowerChange(!control_value->getBodyPower());
 }
 
 bool mainWindow::askClose()

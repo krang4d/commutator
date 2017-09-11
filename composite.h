@@ -19,7 +19,7 @@ public:
     virtual void action() = 0;
     virtual void add(const SPtr&);
     virtual void remove(const SPtr&);
-    bool getNext();
+    bool getNext() const;
 protected:
     bool _next;
 };

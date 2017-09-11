@@ -13,7 +13,7 @@ void IComposite::remove(const SPtr&){
     throw std::runtime_error("IText: Can't remove from a leaf");
 }
 
-bool IComposite::getNext()
+bool IComposite::getNext() const
 {
     return _next;
 }
