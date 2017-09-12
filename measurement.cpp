@@ -44,5 +44,5 @@ void measurement::action()
 
 void measurement::update()
 {
-    _next =  getSubject()->getBodyPower() && getSubject()->getDock();
+    setNext(getSubject()->getBodyPower() && getSubject()->getDock());
 }

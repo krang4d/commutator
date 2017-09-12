@@ -2,8 +2,8 @@
 #include "observer.h"
 #include "ui_tools.h"
 
-tools::tools(Subject *con, QWidget *parent) : control_value(con),
-    QWidget(parent),
+tools::tools(Subject *con, QDialog *parent) : control_value(con),
+    QDialog(parent),
     ui(new Ui::tools)
 {
     ui->setupUi(this);

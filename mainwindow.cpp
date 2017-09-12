@@ -8,6 +8,7 @@
 #include "logger.h"
 #include "observer.h"
 #include "tools.h"
+#include "startdialog.h"
 
 mainWindow::mainWindow()
 {
@@ -38,7 +39,7 @@ void mainWindow::InitWindow()
     startAction = new QAction(tr("Начать проверку"));
     startAction->setShortcut(tr("Ctrl+R"));
     viewAction = new QAction(tr("Просмотреть файл"));
-    toolsAction = new QAction(tr("Дополнительные возможности"));
+    toolsAction = new QAction(tr("Дополнительные возможности..."));
     aboutAction = new QAction(tr("O программе"), this);
     aboutAction->setStatusTip(tr("Сведения о программе"));
     exitAction = new QAction(tr("Выход"));
@@ -69,11 +70,20 @@ void mainWindow::InitWindow()
 
     log = new AllLogger(this);
     //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
-    //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало проверок").arg(log->GetDataTime());
-    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало проверок. ") + log->GetDateTime() + string("</div>");
+    //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
+    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало работы программы ") + log->GetDateTime() + string("</div>");
     log->log(msg);
 
     control_value = new Subject(log);
+
+    if(!control_value->getBodyPower())
+    {
+        log->log("<div>Крпус <span style='color:#ff0000;'>БРАК </span>");
+    }
+    if(!control_value->getDock())
+    {
+        log->log("<div>Стыковка <span style='color:#ff0000;'>БРАК </span>");
+    }
 
     setCentralWidget(cw);
 }
@@ -112,6 +122,11 @@ void mainWindow::setNextLine(string msg)
     cw->setMessage(QString(msg.c_str()));
 }
 
+Logger *mainWindow::getLogger()
+{
+    return log;
+}
+
 void mainWindow::resizeEvent(QResizeEvent *event)
 {
     QSize sz = event->size();
@@ -147,6 +162,8 @@ void mainWindow::view()
 void mainWindow::toolsWindow()
 {
     tools *t = new tools(control_value);
+    //t->setWindowModality(Qt::WindowModal);
+    t->setModal(false);
     t->show();
 }
 
@@ -154,6 +171,9 @@ void mainWindow::updateTimer()
 {
     cw->DockingChange(!control_value->getDock());
     cw->BodyPowerChange(!control_value->getBodyPower());
+    if(control_value->getBodyPower() && control_value->getDock())
+        cw->StartButton->setVisible(true);
+    else cw->StartButton->setVisible(false);
 }
 
 bool mainWindow::askClose()
@@ -168,7 +188,10 @@ bool mainWindow::askClose()
 
 void mainWindow::closeEvent(QCloseEvent *event)
 {
-    if (askClose()) { event->accept(); }
-    else { event->ignore(); }
+    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Завершение работы программы ") + log->GetDateTime() + string("</div>");
+    log->log(msg);
+    event->accept();
+//    if (askClose()) { event->accept(); }
+//    else { event->ignore(); }
 }
 

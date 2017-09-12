@@ -1,6 +1,6 @@
 ﻿#include "composite.h"
 
-IComposite::IComposite() : _next(true)
+IComposite::IComposite() : next_(false)
 {
 
 }
@@ -13,9 +13,14 @@ void IComposite::remove(const SPtr&){
     throw std::runtime_error("IText: Can't remove from a leaf");
 }
 
+void IComposite::setNext(bool next)
+{
+    next_ = next;
+}
+
 bool IComposite::getNext() const
 {
-    return _next;
+    return next_;
 }
 
 void Scenario::add(const SPtr& sptr){

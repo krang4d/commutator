@@ -1,7 +1,7 @@
 ﻿#ifndef TOOLS_H
 #define TOOLS_H
 
-#include <QWidget>
+#include <QDialog>
 
 class Subject;
 
@@ -9,12 +9,12 @@ namespace Ui {
 class tools;
 }
 
-class tools : public QWidget
+class tools : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit tools(Subject *con, QWidget *parent = 0);
+    explicit tools(Subject *con, QDialog *parent = 0);
     ~tools();
 
 private:

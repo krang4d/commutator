@@ -17,7 +17,7 @@ public:
     CenterWidget(QWidget *parent = 0);
     virtual ~CenterWidget();
     void setMessage(QString msg);
-private:
+//private:
     QVBoxLayout *masterLayout;
     QVBoxLayout *ledSlaveVLayout;
     QHBoxLayout *ledSlaveHLayout;

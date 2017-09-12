@@ -2,7 +2,8 @@
 #include <QApplication>
 
 #include "mainwindow.h"
-
+#include "startdialog.h"
+#include "logger.h"
 
 using namespace std;
 
@@ -15,5 +16,15 @@ int main(int argc, char *argv[])
     mw->setWindowTitle(QWidget::tr("Прототип коммутатора"));
     mw->resize(1000, 500);
     mw->show();
+
+    StartDialog *st = new StartDialog;
+    QObject::connect(st, SIGNAL(rejected()), mw, SLOT(close()));
+    if(st->exec() == QDialog::Accepted) {
+        mw->getLogger()->log("<div>Ф.И.О. оператора: "+st->getFIO().toStdString()+"</div>");
+        mw->getLogger()->log("<div>Номер прибора: "+st->getNumber().toStdString()+"</div>");
+    }
     return app.exec();
+
+    delete st;
+    delete mw;
 }

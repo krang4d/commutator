@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     centerwidget.cpp \
     mainwindow.cpp \
     observer.cpp \
-    tools.cpp
+    tools.cpp \
+    startdialog.cpp
 
 HEADERS += \
     measurement.h \
@@ -23,7 +24,9 @@ HEADERS += \
     centerwidget.h \
     mainwindow.h \
     observer.h \
-    tools.h
+    tools.h \
+    startdialog.h
 
 FORMS += \
-    tools.ui
+    tools.ui \
+    startdialog.ui

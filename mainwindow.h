@@ -21,6 +21,7 @@ class Scenario;
 class CenterWidget;
 class Logger;
 class Subject;
+class StartDialog;
 
 using std::string;
 
@@ -32,6 +33,7 @@ public:
     explicit mainWindow();
     ~mainWindow();
     void setNextLine(string);
+    Logger *getLogger();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);

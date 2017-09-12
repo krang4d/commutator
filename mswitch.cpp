@@ -35,5 +35,5 @@ void mswitch::action()
 
 void mswitch::update()
 {
-    _next = getSubject()->getBodyPower() && getSubject()->getDock();
+    setNext(getSubject()->getBodyPower() && getSubject()->getDock());
 }

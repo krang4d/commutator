@@ -20,8 +20,9 @@ public:
     virtual void add(const SPtr&);
     virtual void remove(const SPtr&);
     bool getNext() const;
+    void setNext(bool next);
 protected:
-    bool _next;
+    bool next_;
 };
 
 class Scenario: public IComposite

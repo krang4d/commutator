@@ -7,6 +7,13 @@
 #include <vector>
 #include <ctime>
 #include <chrono>
+#include <QtWidgets>
+#include <QTextDocument>
+
+#ifndef QT_NO_PRINTER
+#include <QtPrintSupport/QPrinter>
+#endif
+
 
 class mainWindow;
 
@@ -51,6 +58,14 @@ public:
 protected:
     mainWindow *mw;
     vector<string> vstr;
+};
+
+class pdfLogger : virtual public Logger
+{
+public:
+    pdfLogger();
+    virtual ~pdfLogger();
+    virtual void log(const string &str);
 };
 
 class AllLogger : virtual public Logger

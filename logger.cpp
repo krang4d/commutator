@@ -34,6 +34,21 @@ void FileLogger::log(const string &str)
     flog->close();
 }
 
+void pdfLogger::log(const string &str)
+{
+//    string *c = const_cast<string*>(&str);
+
+//    QPrinter printer(QPrinter::PrinterResolution);
+//    printer.setOutputFormat(QPrinter::PdfFormat);
+//    printer.setPaperSize(QPrinter::A4);
+//    printer.setOutputFileName("file.pdf");
+
+//    QTextDocument doc;
+//    doc.setHtml(QString(c->c_str()));
+//    doc.setPageSize(printer.pageRect().size());
+//    doc.print(&printer);
+}
+
 WindowLogger::WindowLogger(mainWindow *_mv) :  mw(_mv), vstr(0)
 {
 
