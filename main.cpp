@@ -8,6 +8,7 @@
 #include "measurement.h"
 #include "powermanager.h"
 #include "observer.h"
+#include "tools.h"
 
 using namespace std;
 
@@ -30,15 +31,18 @@ int main(int argc, char *argv[])
     mw->moveToCenter();
     mw->show();
 
-
-
+    tools *ts = new tools(control_value, (QDialog*)mw);
+    ts->setHidden(true);
 
     StartDialog *st = new StartDialog(mw);
     QObject::connect(st, SIGNAL(rejected()), mw, SLOT(close()));
+    QObject::connect(mw, SIGNAL(tools(bool)), ts, SLOT(setHidden(bool)));
     if(st->exec() == QDialog::Accepted) {
-        mw->getLogger()->log("<div>Ф.И.О. оператора: "+st->getFIO().toStdString()+"</div>");
-        mw->getLogger()->log("<div>Номер прибора: "+st->getNumber().toStdString()+"</div>");
+        log->log("<div>Ф.И.О. оператора: "+st->getFIO().toStdString()+"</div>");
+        log->log("<div>Номер прибора: "+st->getNumber().toStdString()+"</div>");
     }
+
+
     return app.exec();
 
     delete st;
@@ -67,4 +71,9 @@ Scenario *CreateScenario(Subject *control_value, Logger *log)
     sc->add(Y0);
     sc->add(PowerOFF);
     return sc;
+}
+
+void runtools()
+{
+
 }

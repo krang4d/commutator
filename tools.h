@@ -14,7 +14,7 @@ class tools : public QDialog
     Q_OBJECT
 
 public:
-    explicit tools(Subject *con, QDialog *parent = 0);
+    explicit tools(Subject *con, QDialog *parent);
     ~tools();
 
 private:

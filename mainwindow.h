@@ -48,7 +48,9 @@ private slots:
     void run();
     void view();
     void toolsWindow();
-    void updateTimer();
+
+signals:
+    void tools(bool);
 
 private:
     QAction *startAction;

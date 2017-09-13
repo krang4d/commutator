@@ -11,7 +11,6 @@ mainWindow::mainWindow(Subject *control) : Observer(control)
     QTextCodec::setCodecForLocale(codec);
 
     InitWindow();
-    CreateScenario();
 
     connect(startAction, SIGNAL(triggered(bool)), this, SLOT(run()));
     connect(viewAction, SIGNAL(triggered(bool)), this, SLOT(view()));
@@ -64,7 +63,6 @@ void mainWindow::InitWindow()
 mainWindow::~mainWindow()
 {
     delete log;
-    delete sc;
 }
 
 void mainWindow::setNextLine(string msg)
@@ -119,10 +117,7 @@ void mainWindow::view()
 
 void mainWindow::toolsWindow()
 {
-    tools *t = new tools(control_value);
-    //t->setWindowModality(Qt::WindowModal);
-    t->setModal(false);
-    t->show();
+    emit tools(false);
 }
 
 bool mainWindow::askClose()
