@@ -34,59 +34,22 @@ void FileLogger::log(const string &str)
     flog->close();
 }
 
-void pdfLogger::log(const string &str)
-{
-//    string *c = const_cast<string*>(&str);
-
-//    QPrinter printer(QPrinter::PrinterResolution);
-//    printer.setOutputFormat(QPrinter::PdfFormat);
-//    printer.setPaperSize(QPrinter::A4);
-//    printer.setOutputFileName("file.pdf");
-
-//    QTextDocument doc;
-//    doc.setHtml(QString(c->c_str()));
-//    doc.setPageSize(printer.pageRect().size());
-//    doc.print(&printer);
-}
-
-WindowLogger::WindowLogger(mainWindow *_mv) :  mw(_mv), vstr(0)
-{
-
-}
-
-void WindowLogger::log(const string &str)
-{
-    vstr.push_back(str);
-    string winstr;
-    for(uint i = 0; i < vstr.size(); i++)
-    {
-        winstr += vstr[i];
-        winstr += '\n';
-    }
-    mw->setNextLine(winstr);
-}
-
-
-
-AllLogger::AllLogger(mainWindow *mv)
+AllLogger::AllLogger()
 {
     fl = new FileLogger();
     cl = new ConsoleLogger();
-    wl = new WindowLogger(mv);
 }
 
 AllLogger::~AllLogger()
 {
     delete fl;
     delete cl;
-    delete wl;
 }
 
 void AllLogger::log(const string &str)
 {
     fl->log(str);
     cl->log(str);
-    wl->log(str);
 }
 
 string Logger::GetDateTime() const

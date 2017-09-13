@@ -1,16 +1,11 @@
 ﻿#include "mainwindow.h"
-
 #include "centerwidget.h"
-#include "mswitch.h"
-#include "measurement.h"
-#include "powermanager.h"
-#include "composite.h"
-#include "logger.h"
-#include "observer.h"
 #include "tools.h"
 #include "startdialog.h"
+#include "logger.h"
 
-mainWindow::mainWindow()
+
+mainWindow::mainWindow(Subject *control) : Observer(control)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
@@ -26,16 +21,11 @@ mainWindow::mainWindow()
     connect(cw, SIGNAL(Start()), this, SLOT(run()));
     connect(cw, SIGNAL(View()), this, SLOT(view()));
     connect(toolsAction, SIGNAL(triggered(bool)), this, SLOT(toolsWindow()));
-    connect(tm, SIGNAL(timeout()), this, SLOT(updateTimer()));
 }
 
 void mainWindow::InitWindow()
 {
     cw = new CenterWidget(this);
-    tm = new QTimer(this);
-    tm->setInterval(200);
-    tm->start();
-
     startAction = new QAction(tr("Начать проверку"));
     startAction->setShortcut(tr("Ctrl+R"));
     viewAction = new QAction(tr("Просмотреть файл"));
@@ -68,47 +58,7 @@ void mainWindow::InitWindow()
     sb1->setText(tr("Привет!"));
     setMouseTracking(true);
 
-    log = new AllLogger(this);
-    //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
-    //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
-    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало работы программы ") + log->GetDateTime() + string("</div>");
-    log->log(msg);
-
-    control_value = new Subject(log);
-
-    if(!control_value->getBodyPower())
-    {
-        log->log("<div>Крпус <span style='color:#ff0000;'>БРАК </span>");
-    }
-    if(!control_value->getDock())
-    {
-        log->log("<div>Стыковка <span style='color:#ff0000;'>БРАК </span>");
-    }
-
     setCentralWidget(cw);
-}
-
-void mainWindow::CreateScenario()
-{
-    IComposite::SPtr PowerON(new powermanager(log, 27, control_value));
-    IComposite::SPtr PowerOFF(new powermanager(log, 0, control_value));
-
-    IComposite::SPtr Volt(new measurement(log, measurement::VOLT, control_value));
-    IComposite::SPtr Resist(new measurement(log, measurement::RESIST, control_value));
-
-    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0, control_value));
-    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1, control_value));
-
-    sc = new Scenario();
-    sc->add(PowerON);
-    sc->add(Y0);
-    sc->add(Volt);
-    sc->add(Resist);
-    sc->add(Y1);
-    sc->add(Volt);
-    sc->add(Resist);
-    sc->add(Y0);
-    sc->add(PowerOFF);
 }
 
 mainWindow::~mainWindow()
@@ -122,17 +72,17 @@ void mainWindow::setNextLine(string msg)
     cw->setMessage(QString(msg.c_str()));
 }
 
-Logger *mainWindow::getLogger()
-{
-    return log;
-}
-
 void mainWindow::moveToCenter()
 {
     QRect screenGeometry = QApplication::desktop()->screenGeometry();
     int x = (screenGeometry.width() - width()) / 2;
     int y = (screenGeometry.height() - height()) / 2;
     move(x, y);
+}
+
+void mainWindow::update()
+{
+
 }
 
 void mainWindow::resizeEvent(QResizeEvent *event)
@@ -157,7 +107,7 @@ void mainWindow::about()
 
 void mainWindow::run()
 {
-    sc->action();
+    //sc->action();
 }
 
 void mainWindow::view()
@@ -173,15 +123,6 @@ void mainWindow::toolsWindow()
     //t->setWindowModality(Qt::WindowModal);
     t->setModal(false);
     t->show();
-}
-
-void mainWindow::updateTimer()
-{
-    cw->DockingChange(!control_value->getDock());
-    cw->BodyPowerChange(!control_value->getBodyPower());
-    if(control_value->getBodyPower() && control_value->getDock())
-        cw->StartButton->setVisible(true);
-    else cw->StartButton->setVisible(false);
 }
 
 bool mainWindow::askClose()

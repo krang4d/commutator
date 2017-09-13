@@ -16,25 +16,25 @@
 #include <QProcess>
 #include <QTimer>
 #include <string>
+#include <observer.h>
 
-class Scenario;
 class CenterWidget;
 class Logger;
-class Subject;
 class StartDialog;
 
 using std::string;
 
-class mainWindow : public QMainWindow
+class mainWindow : public QMainWindow, Observer
 {
     Q_OBJECT
 
 public:
-    explicit mainWindow();
+    explicit mainWindow(Subject *control);
     ~mainWindow();
     void setNextLine(string);
     Logger *getLogger();
     void moveToCenter();
+    virtual void update() override;
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -42,7 +42,6 @@ protected:
     virtual void closeEvent(QCloseEvent *event);
 
     void InitWindow();
-    void CreateScenario();
 
 private slots:
     void about();
@@ -65,9 +64,7 @@ private:
     QLabel *sb3;
 
     CenterWidget *cw;
-    Scenario *sc;
     Logger *log;
-    Subject *control_value;
 
     QTimer *tm;
     bool askClose();

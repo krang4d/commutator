@@ -49,33 +49,13 @@ private:
     ofstream *flog;
 };
 
-class WindowLogger : virtual public Logger
-{
-public:
-    explicit WindowLogger(mainWindow *_mv);
-    virtual ~WindowLogger() {}
-    virtual void log(const string &str) override;
-protected:
-    mainWindow *mw;
-    vector<string> vstr;
-};
-
-class pdfLogger : virtual public Logger
-{
-public:
-    pdfLogger();
-    virtual ~pdfLogger();
-    virtual void log(const string &str);
-};
-
 class AllLogger : virtual public Logger
 {
 public:
-    explicit AllLogger(mainWindow *mv);
+    explicit AllLogger();
     virtual ~AllLogger();
     virtual void log(const string &str);
 protected:
-    WindowLogger *wl;
     FileLogger *fl;
     ConsoleLogger *cl;
 };
