@@ -41,3 +41,8 @@ void Scenario::action(){
         sptr->action();
     }
 }
+
+void Scenario::runScenario()
+{
+    action();
+}

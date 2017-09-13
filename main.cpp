@@ -12,6 +12,8 @@
 
 using namespace std;
 
+Scenario *CreateScenario(Subject *control_value, Logger *log);
+
 int main(int argc, char *argv[])
 {
     //setlocale(LC_CTYPE, "Russian");
@@ -43,10 +45,17 @@ int main(int argc, char *argv[])
     }
 
 
+    Scenario *sc = CreateScenario(control_value, log);
+    control_value->setBodyPower(true);
+    control_value->setDock(true);
+    QObject::connect(mw, SIGNAL(runScenario()), sc, SLOT(runScenario()));
     return app.exec();
 
     delete st;
     delete mw;
+    delete control_value;
+    delete log;
+    delete sc;
 }
 
 Scenario *CreateScenario(Subject *control_value, Logger *log)
@@ -73,7 +82,3 @@ Scenario *CreateScenario(Subject *control_value, Logger *log)
     return sc;
 }
 
-void runtools()
-{
-
-}

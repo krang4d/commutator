@@ -62,7 +62,6 @@ void mainWindow::InitWindow()
 
 mainWindow::~mainWindow()
 {
-    delete log;
 }
 
 void mainWindow::setNextLine(string msg)
@@ -95,6 +94,12 @@ void mainWindow::mouseMoveEvent(QMouseEvent *event)
     sb3->setText(QString( "%1, %2" ).arg( pos.x() ).arg( pos.y() ) );
 }
 
+void mainWindow::keyPressEvent(QKeyEvent *event)
+{
+    QString keystr = "KeyPressed " + QString(to_string(event->key()).c_str());
+    sb1->setText(keystr);
+}
+
 void mainWindow::about()
 {
     QMessageBox::about(
@@ -105,6 +110,7 @@ void mainWindow::about()
 
 void mainWindow::run()
 {
+    emit runScenario();
     //sc->action();
 }
 
@@ -132,8 +138,8 @@ bool mainWindow::askClose()
 
 void mainWindow::closeEvent(QCloseEvent *event)
 {
-    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Завершение работы программы ") + log->GetDateTime() + string("</div>");
-    log->log(msg);
+    //string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Завершение работы программы ") + log->GetDateTime() + string("</div>");
+    //log->log(msg);
     event->accept();
 //    if (askClose()) { event->accept(); }
 //    else { event->ignore(); }

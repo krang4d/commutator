@@ -39,6 +39,7 @@ public:
 protected:
     virtual void resizeEvent(QResizeEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
     virtual void closeEvent(QCloseEvent *event);
 
     void InitWindow();
@@ -51,6 +52,7 @@ private slots:
 
 signals:
     void tools(bool);
+    void runScenario();
 
 private:
     QAction *startAction;
@@ -66,7 +68,6 @@ private:
     QLabel *sb3;
 
     CenterWidget *cw;
-    Logger *log;
 
     QTimer *tm;
     bool askClose();
