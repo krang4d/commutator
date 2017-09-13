@@ -127,6 +127,14 @@ Logger *mainWindow::getLogger()
     return log;
 }
 
+void mainWindow::moveToCenter()
+{
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    int x = (screenGeometry.width() - width()) / 2;
+    int y = (screenGeometry.height() - height()) / 2;
+    move(x, y);
+}
+
 void mainWindow::resizeEvent(QResizeEvent *event)
 {
     QSize sz = event->size();

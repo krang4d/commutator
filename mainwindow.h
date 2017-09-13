@@ -34,6 +34,7 @@ public:
     ~mainWindow();
     void setNextLine(string);
     Logger *getLogger();
+    void moveToCenter();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
