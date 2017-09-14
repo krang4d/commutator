@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <memory>
 #include <string>
-#include <logger.h>
 
 class AbortScenario {};
 
@@ -33,11 +32,9 @@ public:
     void add(const SPtr& sptr);
     void remove(const SPtr& sptr);
     void replace(const SPtr& oldValue, const SPtr& newValue);
-    virtual std::string action() override;
+    std::string action() override;
 private:
     std::list<SPtr> children_;
-    FileLogger log;
-
 };
 
 #endif // COMPOSITE_H

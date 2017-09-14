@@ -36,8 +36,10 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 }
 
 std::string Scenario::action(){
+    std::string msg;
     for(SPtr& sptr : children_){
         if (!sptr->getNext()) throw AbortScenario();
-        log.log(sptr->action());
+        msg += sptr->action();
     }
+    return msg;
 }

@@ -9,7 +9,7 @@ using namespace std;
 measurement::measurement(operation op, Subject *con)
     : op_(op), Observer(con)
 {
-    //log = _log;
+
 }
 
 string measurement::getVoltage()
@@ -34,6 +34,7 @@ string measurement::action()
             return getResistance();
         default:
             throw assert();
+            return 0;
     }
 
 }

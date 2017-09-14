@@ -49,13 +49,12 @@ int main(int argc, char *argv[])
     control_value->setBodyPower(true);
     control_value->setDock(true);
     sc->action();
-    //QObject::connect(mw, SIGNAL(runScenario()), sc, SLOT(runScenario()));
+    //delete st;
+    //delete mw;
+    //delete control_value;
+    //delete log;
+    //delete sc;
     return app.exec();
-    delete st;
-    delete mw;
-    delete control_value;
-    delete log;
-    delete sc;
 }
 
 Scenario *CreateScenario(Subject *control_value)
