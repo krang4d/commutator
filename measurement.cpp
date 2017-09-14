@@ -6,8 +6,8 @@ class assert{};
 
 using namespace std;
 
-measurement::measurement(operation op, Subject *con)
-    : op_(op), Observer(con)
+measurement::measurement(operation op)
+    : op_(op)
 {
 
 }
@@ -37,9 +37,4 @@ string measurement::action()
             return 0;
     }
 
-}
-
-void measurement::update()
-{
-    setNext(getSubject()->getBodyPower() && getSubject()->getDock());
 }

@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     Scenario *sc = CreateScenario(control_value);
     control_value->setBodyPower(true);
     control_value->setDock(true);
-    sc->action();
+    log->log(sc->action());
     //delete st;
     //delete mw;
     //delete control_value;
@@ -59,16 +59,16 @@ int main(int argc, char *argv[])
 
 Scenario *CreateScenario(Subject *control_value)
 {
-    IComposite::SPtr PowerON(new powermanager(27, control_value));
-    IComposite::SPtr PowerOFF(new powermanager(0, control_value));
+    IComposite::SPtr PowerON(new powermanager(27));
+    IComposite::SPtr PowerOFF(new powermanager(0));
 
-    IComposite::SPtr Volt(new measurement(measurement::VOLT, control_value));
-    IComposite::SPtr Resist(new measurement( measurement::RESIST, control_value));
+    IComposite::SPtr Volt(new measurement(measurement::VOLT));
+    IComposite::SPtr Resist(new measurement( measurement::RESIST));
 
-    IComposite::SPtr Y0(new mswitch(mswitch::Y0, control_value));
-    IComposite::SPtr Y1(new mswitch(mswitch::Y1, control_value));
+    IComposite::SPtr Y0(new mswitch(mswitch::Y0));
+    IComposite::SPtr Y1(new mswitch(mswitch::Y1));
 
-    Scenario *sc = new Scenario();
+    Scenario *sc = new Scenario(control_value);
     sc->add(PowerON);
     sc->add(Volt);
     sc->add(Y0);

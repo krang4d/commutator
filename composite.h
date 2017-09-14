@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <observer.h>
 
 class AbortScenario {};
 
@@ -18,23 +19,26 @@ public:
     virtual ~IComposite() {}
     virtual void add(const SPtr&);
     virtual void remove(const SPtr&);
-    bool getNext() const;
-    void setNext(bool next);
     virtual std::string action() = 0;
-protected:
-    bool next_;
+
 };
 
-class Scenario: public IComposite
+class Scenario: public IComposite, Observer
 {
 public:
+    Scenario(Subject *sub);
     virtual ~Scenario() {}
+    bool getNext() const;
+    void setNext(bool next);
     void add(const SPtr& sptr);
     void remove(const SPtr& sptr);
     void replace(const SPtr& oldValue, const SPtr& newValue);
     std::string action() override;
+    void update() override;
+
 private:
     std::list<SPtr> children_;
+    bool next_;
 };
 
 #endif // COMPOSITE_H

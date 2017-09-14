@@ -4,15 +4,13 @@
 #include "composite.h"
 #include "observer.h"
 
-class powermanager : public IComposite, public Observer
+class powermanager : public IComposite
 {
 public:
-    powermanager(double current_voltage, Subject *con);
+    powermanager(double current_voltage);
     string setVoltage(double v);
 
     virtual string action() override;
-    virtual void update() override;
-
 protected:
     double _current_voltage;
 };
