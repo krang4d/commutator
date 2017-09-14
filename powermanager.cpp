@@ -4,9 +4,8 @@
 
 using namespace std;
 
-powermanager::powermanager(double current_voltage, Subject *con) : _current_voltage(current_voltage), Observer(con)
+powermanager::powermanager(double current_voltage) : _current_voltage(current_voltage)
 {
-
 }
 
 string powermanager::setVoltage(double v)
@@ -18,9 +17,4 @@ string powermanager::setVoltage(double v)
 string powermanager::action()
 {
     return setVoltage(_current_voltage);
-}
-
-void powermanager::update()
-{
-    setNext(getSubject()->getBodyPower() && getSubject()->getDock());
 }

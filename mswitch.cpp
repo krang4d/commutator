@@ -4,8 +4,8 @@
 
 using namespace std;
 
-mswitch::mswitch(channel ch, Subject *con)
-    : current_channel(ch), Observer(con)
+mswitch::mswitch(channel ch)
+    : current_channel(ch)
 {
 
 }
@@ -32,7 +32,3 @@ string mswitch::action()
     return switchChannel(current_channel);
 }
 
-void mswitch::update()
-{
-    setNext(getSubject()->getBodyPower() && getSubject()->getDock());
-}

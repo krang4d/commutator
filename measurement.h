@@ -2,20 +2,18 @@
 #define MEASUREMENT_H
 
 #include "composite.h"
-#include "observer.h"
 
-class measurement : public IComposite, public Observer
+class measurement : public IComposite
 {
 public:
 
     enum operation {VOLT, RESIST};
 
-    measurement(operation op, Subject *con);
+    measurement(operation op);
     string getVoltage();
     string getResistance();
 
     virtual string action() override;
-    virtual void update() override;
 
 protected:
     operation op_;

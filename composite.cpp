@@ -1,6 +1,6 @@
 ﻿#include "composite.h"
 
-IComposite::IComposite() : next_(false)
+IComposite::IComposite()
 {
 
 }
@@ -13,12 +13,17 @@ void IComposite::remove(const SPtr&){
     throw std::runtime_error("IText: Can't remove from a leaf");
 }
 
-void IComposite::setNext(bool next)
+Scenario::Scenario(Subject *sub) : Observer(sub)
+{
+
+}
+
+void Scenario::setNext(bool next)
 {
     next_ = next;
 }
 
-bool IComposite::getNext() const
+bool Scenario::getNext() const
 {
     return next_;
 }
@@ -38,8 +43,13 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 std::string Scenario::action(){
     std::string msg;
     for(SPtr& sptr : children_){
-        if (!sptr->getNext()) throw AbortScenario();
+        if (!getNext()) throw AbortScenario();
         msg += sptr->action();
     }
     return msg;
+}
+
+void Scenario::update()
+{
+    setNext(getSubject()->getBodyPower() && getSubject()->getDock());
 }
