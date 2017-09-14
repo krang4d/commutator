@@ -7,13 +7,6 @@
 #include <vector>
 #include <ctime>
 #include <chrono>
-#include <QtWidgets>
-#include <QTextDocument>
-
-#ifndef QT_NO_PRINTER
-#include <QtPrintSupport/QPrinter>
-#endif
-
 
 class mainWindow;
 
@@ -25,7 +18,7 @@ public:
     Logger();
     virtual ~Logger() {}
     virtual void log(const string &str) = 0;
-    string GetDateTime() const;
+    string GetDateTime();
     string GetTime();
 private:
     clock_t start_t;

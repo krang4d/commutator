@@ -13,7 +13,7 @@ void IComposite::remove(const SPtr&){
     throw std::runtime_error("IText: Can't remove from a leaf");
 }
 
-Scenario::Scenario(Subject *sub) : Observer(sub)
+Scenario::Scenario(Subject *sub, Logger *log) : Observer(sub), log_(log)
 {
 
 }
@@ -44,7 +44,7 @@ std::string Scenario::action(){
     std::string msg;
     for(SPtr& sptr : children_){
         if (!getNext()) throw AbortScenario();
-        msg += sptr->action();
+        msg += "<div>" + sptr->action() + " " + log_->GetTime() + "</div>";
     }
     return msg;
 }

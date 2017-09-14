@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Scenario *CreateScenario(Subject *control_value);
+Scenario *CreateScenario(Subject *control_value, Logger *log);
 
 int main(int argc, char *argv[])
 {
@@ -44,8 +44,7 @@ int main(int argc, char *argv[])
         log->log("<div>Номер прибора: "+st->getNumber().toStdString()+"</div>");
     }
 
-
-    Scenario *sc = CreateScenario(control_value);
+    Scenario *sc = CreateScenario(control_value, log);
     control_value->setBodyPower(true);
     control_value->setDock(true);
     log->log(sc->action());
@@ -57,7 +56,7 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-Scenario *CreateScenario(Subject *control_value)
+Scenario *CreateScenario(Subject *control_value, Logger *log)
 {
     IComposite::SPtr PowerON(new powermanager(27));
     IComposite::SPtr PowerOFF(new powermanager(0));
@@ -68,7 +67,7 @@ Scenario *CreateScenario(Subject *control_value)
     IComposite::SPtr Y0(new mswitch(mswitch::Y0));
     IComposite::SPtr Y1(new mswitch(mswitch::Y1));
 
-    Scenario *sc = new Scenario(control_value);
+    Scenario *sc = new Scenario(control_value, log);
     sc->add(PowerON);
     sc->add(Volt);
     sc->add(Y0);

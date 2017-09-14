@@ -10,7 +10,7 @@ powermanager::powermanager(double current_voltage) : _current_voltage(current_vo
 
 string powermanager::setVoltage(double v)
 {
-       string str = "<span style='color:#ff0000'>Установка напряжения питания:</span>";
+       string str = "<span style='color:#ff0000'>Установка напряжения питания:" + to_string(v) + "</span>";
        return str;
 }
 

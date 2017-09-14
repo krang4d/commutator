@@ -15,6 +15,8 @@
 #include <QResizeEvent>
 #include <QProcess>
 #include <QTimer>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <string>
 #include <observer.h>
 

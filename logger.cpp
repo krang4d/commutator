@@ -52,7 +52,7 @@ void AllLogger::log(const string &str)
     cl->log(str);
 }
 
-string Logger::GetDateTime() const
+string Logger::GetDateTime()
 {
     std::time_t now = std::time(NULL);
     std::tm *tm = std::localtime(&now);

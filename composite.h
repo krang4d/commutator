@@ -6,7 +6,9 @@
 #include <algorithm>
 #include <memory>
 #include <string>
+
 #include <observer.h>
+#include <logger.h>
 
 class AbortScenario {};
 
@@ -20,13 +22,12 @@ public:
     virtual void add(const SPtr&);
     virtual void remove(const SPtr&);
     virtual std::string action() = 0;
-
 };
 
 class Scenario: public IComposite, Observer
 {
 public:
-    Scenario(Subject *sub);
+    Scenario(Subject *sub, Logger *log);
     virtual ~Scenario() {}
     bool getNext() const;
     void setNext(bool next);
@@ -39,6 +40,7 @@ public:
 private:
     std::list<SPtr> children_;
     bool next_;
+    Logger *log_;
 };
 
 #endif // COMPOSITE_H
