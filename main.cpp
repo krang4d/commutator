@@ -12,7 +12,7 @@
 
 using namespace std;
 
-Scenario *CreateScenario(Subject *control_value, Logger *log);
+Scenario *CreateScenario(Subject *control_value);
 
 int main(int argc, char *argv[])
 {
@@ -45,12 +45,12 @@ int main(int argc, char *argv[])
     }
 
 
-    Scenario *sc = CreateScenario(control_value, log);
+    Scenario *sc = CreateScenario(control_value);
     control_value->setBodyPower(true);
     control_value->setDock(true);
-    QObject::connect(mw, SIGNAL(runScenario()), sc, SLOT(runScenario()));
+    sc->action();
+    //QObject::connect(mw, SIGNAL(runScenario()), sc, SLOT(runScenario()));
     return app.exec();
-
     delete st;
     delete mw;
     delete control_value;
@@ -58,21 +58,21 @@ int main(int argc, char *argv[])
     delete sc;
 }
 
-Scenario *CreateScenario(Subject *control_value, Logger *log)
+Scenario *CreateScenario(Subject *control_value)
 {
-    IComposite::SPtr PowerON(new powermanager(log, 27, control_value));
-    IComposite::SPtr PowerOFF(new powermanager(log, 0, control_value));
+    IComposite::SPtr PowerON(new powermanager(27, control_value));
+    IComposite::SPtr PowerOFF(new powermanager(0, control_value));
 
-    IComposite::SPtr Volt(new measurement(log, measurement::VOLT, control_value));
-    IComposite::SPtr Resist(new measurement(log, measurement::RESIST, control_value));
+    IComposite::SPtr Volt(new measurement(measurement::VOLT, control_value));
+    IComposite::SPtr Resist(new measurement( measurement::RESIST, control_value));
 
-    IComposite::SPtr Y0(new mswitch(log,mswitch::Y0, control_value));
-    IComposite::SPtr Y1(new mswitch(log,mswitch::Y1, control_value));
+    IComposite::SPtr Y0(new mswitch(mswitch::Y0, control_value));
+    IComposite::SPtr Y1(new mswitch(mswitch::Y1, control_value));
 
     Scenario *sc = new Scenario();
     sc->add(PowerON);
-    sc->add(Y0);
     sc->add(Volt);
+    sc->add(Y0);
     sc->add(Resist);
     sc->add(Y1);
     sc->add(Volt);

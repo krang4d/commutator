@@ -1,7 +1,6 @@
 ﻿#ifndef MEASUREMENT_H
 #define MEASUREMENT_H
 
-#include "logger.h"
 #include "composite.h"
 #include "observer.h"
 
@@ -11,16 +10,15 @@ public:
 
     enum operation {VOLT, RESIST};
 
-    measurement(Logger *log, operation op, Subject *con);
-    double getVoltage();
-    double getResistance();
+    measurement(operation op, Subject *con);
+    string getVoltage();
+    string getResistance();
 
-    virtual void action() override;
+    virtual string action() override;
     virtual void update() override;
 
 protected:
     operation op_;
-    Logger *plog;
 };
 
 #endif // MEASUREMENT_H

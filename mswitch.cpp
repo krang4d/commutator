@@ -4,18 +4,17 @@
 
 using namespace std;
 
-mswitch::mswitch(Logger *log, channel ch, Subject *con)
-    : current_channel(ch), _plog(log), Observer(con)
+mswitch::mswitch(channel ch, Subject *con)
+    : current_channel(ch), Observer(con)
 {
 
 }
 
-void mswitch::switchChannel(channel ch)
+std::string mswitch::switchChannel(channel ch)
 {
     current_channel = ch;
-    string str = "<div>Подключение канала - Y" + to_string(ch) +\
-            ".    " + _plog->GetTime() + "</div>";
-    _plog->log(str);
+    std::string str = "Подключение канала - Y" + to_string(ch);
+    return str;
 }
 
 mswitch::channel mswitch::getChannel() const
@@ -28,9 +27,9 @@ void mswitch::setDefault()
     current_channel = default_channel;
 }
 
-void mswitch::action()
+string mswitch::action()
 {
-    switchChannel(current_channel);
+    return switchChannel(current_channel);
 }
 
 void mswitch::update()

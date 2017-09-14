@@ -4,21 +4,20 @@
 
 using namespace std;
 
-powermanager::powermanager(Logger *log, double current_voltage, Subject *con) : _plog(log), _current_voltage(current_voltage), Observer(con)
+powermanager::powermanager(double current_voltage, Subject *con) : _current_voltage(current_voltage), Observer(con)
 {
 
 }
 
-void powermanager::setVoltage(double v)
+string powermanager::setVoltage(double v)
 {
-       string str = "<div style='color:#ff0000'>Установка напряжения питания: " + to_string(v) + \
-               ".   " + _plog->GetTime() + ";</div>";
-       _plog->log(str);
+       string str = "<span style='color:#ff0000'>Установка напряжения питания:</span>";
+       return str;
 }
 
-void powermanager::action()
+string powermanager::action()
 {
-    setVoltage(_current_voltage);
+    return setVoltage(_current_voltage);
 }
 
 void powermanager::update()

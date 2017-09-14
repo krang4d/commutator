@@ -5,13 +5,13 @@
 #include <list>
 #include <algorithm>
 #include <memory>
-#include <QtCore>
+#include <string>
+#include <logger.h>
 
 class AbortScenario {};
 
-class IComposite : QObject
+class IComposite
 {
-    Q_OBJECT
 public:
     typedef std::shared_ptr<IComposite> SPtr;
 
@@ -21,7 +21,7 @@ public:
     virtual void remove(const SPtr&);
     bool getNext() const;
     void setNext(bool next);
-    virtual void action() = 0;
+    virtual std::string action() = 0;
 protected:
     bool next_;
 };
@@ -29,16 +29,15 @@ protected:
 class Scenario: public IComposite
 {
 public:
-
     virtual ~Scenario() {}
     void add(const SPtr& sptr);
     void remove(const SPtr& sptr);
     void replace(const SPtr& oldValue, const SPtr& newValue);
-    virtual void action() override;
-public slots:
-    void runScenario();
+    virtual std::string action() override;
 private:
     std::list<SPtr> children_;
+    FileLogger log;
+
 };
 
 #endif // COMPOSITE_H

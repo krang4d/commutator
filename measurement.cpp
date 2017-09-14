@@ -6,36 +6,32 @@ class assert{};
 
 using namespace std;
 
-measurement::measurement(Logger *log, operation op, Subject *con)
-    : plog(log), op_(op), Observer(con)
+measurement::measurement(operation op, Subject *con)
+    : op_(op), Observer(con)
 {
     //log = _log;
 }
 
-double measurement::getVoltage()
+string measurement::getVoltage()
 {
-    string str = "<div>Измерение напряжения.   " + plog->GetTime() + ";</div>";
-    plog->log(str);
-    return 0;
+    string str = "Измерение напряжения.";
+    return str;
 }
 
-double measurement::getResistance()
+string measurement::getResistance()
 {
-    string str = "<div>Измерение сопротивления.   " + plog->GetTime() + "</div>";
-    plog->log(str);
-    return 0;
+    string str = "Измерение сопротивления.";
+    return str;
 }
 
-void measurement::action()
+string measurement::action()
 {
     switch(op_)
     {
         case VOLT:
-            getVoltage();
-            break;
+            return getVoltage();
         case RESIST:
-            getResistance();
-            break;
+            return getResistance();
         default:
             throw assert();
     }
