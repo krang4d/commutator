@@ -24,7 +24,6 @@ CenterWidget::~CenterWidget()
     delete ledSlaveHLayout;
     delete ledSlaveVLayout;
     delete masterLayout;
-
 }
 
 void CenterWidget::setupLayout(){
@@ -87,6 +86,13 @@ void CenterWidget::BodyPowerChange(bool b)
     else BodyPowerLed->setStyleSheet("border-radius: 10px; background-color: #00ff00;");
 }
 
-void CenterWidget::setMessage(QString msg){
-    MessageTextEdit->setText(msg);
+void CenterWidget::setMessage(std::string msg){
+    messages.push_back(msg);
+    std::string wstr;
+    for(uint i = 0; i < messages.size(); i++)
+        {
+            wstr += messages[i];
+            wstr += '\n';
+        }
+    MessageTextEdit->setText(QString(wstr.c_str()));
 }

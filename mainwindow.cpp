@@ -66,7 +66,7 @@ mainWindow::~mainWindow()
 
 void mainWindow::setNextLine(string msg)
 {
-    cw->setMessage(QString(msg.c_str()));
+    cw->setMessage(msg);
 }
 
 void mainWindow::moveToCenter()

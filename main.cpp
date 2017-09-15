@@ -40,14 +40,20 @@ int main(int argc, char *argv[])
     QObject::connect(st, SIGNAL(rejected()), mw, SLOT(close()));
     QObject::connect(mw, SIGNAL(tools(bool)), ts, SLOT(setHidden(bool)));
     if(st->exec() == QDialog::Accepted) {
-        log->log("<div>Ф.И.О. оператора: "+st->getFIO().toStdString()+"</div>");
-        log->log("<div>Номер прибора: "+st->getNumber().toStdString()+"</div>");
+        string msg("<div>Ф.И.О. оператора: "+st->getFIO().toStdString()+"</div>");
+        log->log(msg);
+        mw->setNextLine(msg);
+        msg = "<div>Номер прибора: "+st->getNumber().toStdString()+"</div>";
+        log->log(msg);
+        mw->setNextLine(msg);
     }
 
     Scenario *sc = CreateScenario(control_value, log);
     control_value->setBodyPower(true);
     control_value->setDock(true);
-    log->log(sc->action());
+    msg = sc->action();
+    log->log(msg);
+    mw->setNextLine(msg);
     //delete st;
     //delete mw;
     //delete control_value;
