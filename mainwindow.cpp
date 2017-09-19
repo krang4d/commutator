@@ -78,12 +78,13 @@ void mainWindow::moveToCenter()
 
 void mainWindow::update()
 {
-
+    cw->BodyPowerChange(getSubject()->getBodyPower());
+    cw->DockingChange(getSubject()->getDock());
 }
 
 void mainWindow::updateWindow()
 {
-    setNextLine(getScenario()->msg);
+    setNextLine(getScenario()->getmsg());
 }
 
 void mainWindow::resizeEvent(QResizeEvent *event)

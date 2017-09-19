@@ -53,8 +53,7 @@ int main(int argc, char *argv[])
         log->log(msg);
         mw->setNextLine(msg);
     }
-    msg = sc->action();
-    log->log(msg);
+    sc->action();
     //mw->setNextLine(msg);
     //delete st;
     //delete mw;

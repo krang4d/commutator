@@ -41,12 +41,15 @@ public:
     void attach(ObservWindow *obsw);
     void notify();
 
-    std::string msg;
+    std::string getmsg();
+    void setmsg(std::string m);
+
 private:
     std::list<SPtr> children_;
     std::vector<ObservWindow *> views;
     bool next_;
     Logger *log_;
+    std::string msg;
 };
 
 class ObservWindow

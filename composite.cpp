@@ -52,7 +52,8 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 std::string Scenario::action(){
     for(SPtr& sptr : children_){
         if (!getNext()) throw AbortScenario();
-        msg = "<div>" + sptr->action() + " " + log_->GetTime() + "</div>";
+        setmsg("<div>" + sptr->action() + " " + log_->GetTime() + "</div>");
+        log_->log(msg);
         notify();
     }
     return msg;
@@ -72,6 +73,16 @@ void Scenario::notify()
 {
     for(unsigned int i=0; i < views.size(); i++)
         views[i]->updateWindow();
+}
+
+string Scenario::getmsg()
+{
+    return msg;
+}
+
+void Scenario::setmsg(string m)
+{
+    msg = m;
 }
 
 ObservWindow::ObservWindow(Scenario *sn) : sub(sn)
