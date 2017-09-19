@@ -5,6 +5,10 @@ IComposite::IComposite()
 
 }
 
+IComposite::~IComposite() {
+
+}
+
 void IComposite::add(const SPtr&) {
     throw std::runtime_error("IText: Can't add to a leaf");
 }
@@ -12,6 +16,11 @@ void IComposite::add(const SPtr&) {
 void IComposite::remove(const SPtr&){
     throw std::runtime_error("IText: Can't remove from a leaf");
 }
+
+//string IComposite::action()
+//{
+//    throw std::runtime_error("IText: Can't action from a leaf");
+//}
 
 Scenario::Scenario(Subject *sub, Logger *log) : Observer(sub), log_(log)
 {
@@ -41,10 +50,10 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 }
 
 std::string Scenario::action(){
-    std::string msg;
     for(SPtr& sptr : children_){
         if (!getNext()) throw AbortScenario();
-        msg += "<div>" + sptr->action() + " " + log_->GetTime() + "</div>";
+        msg = "<div>" + sptr->action() + " " + log_->GetTime() + "</div>";
+        notify();
     }
     return msg;
 }
@@ -52,4 +61,25 @@ std::string Scenario::action(){
 void Scenario::update()
 {
     setNext(getSubject()->getBodyPower() && getSubject()->getDock());
+}
+
+void Scenario::attach(ObservWindow *obsw)
+{
+    views.push_back(obsw);
+}
+
+void Scenario::notify()
+{
+    for(unsigned int i=0; i < views.size(); i++)
+        views[i]->updateWindow();
+}
+
+ObservWindow::ObservWindow(Scenario *sn) : sub(sn)
+{
+    sub->attach(this);
+}
+
+Scenario *ObservWindow::getScenario()
+{
+    return sub;
 }

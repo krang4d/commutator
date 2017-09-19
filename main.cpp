@@ -19,19 +19,25 @@ int main(int argc, char *argv[])
     //setlocale(LC_CTYPE, "Russian");
     QApplication app(argc, argv);
 
-    Logger *log = new AllLogger();
-    //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
-    //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
-    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало работы программы ") + log->GetDateTime() + string("</div>");
-    log->log(msg);
-
     Subject *control_value = new Subject();
+    Logger *log = new AllLogger();
 
-    mainWindow *mw = new mainWindow(control_value);
+    Scenario *sc = CreateScenario(control_value, log);
+    control_value->setBodyPower(true);
+    control_value->setDock(true);
+
+    mainWindow *mw = new mainWindow(control_value, sc);
     mw->setWindowTitle(QWidget::tr("Прототип коммутатора"));
     mw->resize(1000, 500);
     mw->moveToCenter();
     mw->show();
+
+
+    //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
+    //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
+    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало работы программы ") + log->GetDateTime() + string("</div>");
+    log->log(msg);
+    mw->setNextLine(msg);
 
     tools *ts = new tools(control_value, (QDialog*)mw);
     ts->setHidden(true);
@@ -47,13 +53,9 @@ int main(int argc, char *argv[])
         log->log(msg);
         mw->setNextLine(msg);
     }
-
-    Scenario *sc = CreateScenario(control_value, log);
-    control_value->setBodyPower(true);
-    control_value->setDock(true);
     msg = sc->action();
     log->log(msg);
-    mw->setNextLine(msg);
+    //mw->setNextLine(msg);
     //delete st;
     //delete mw;
     //delete control_value;

@@ -4,8 +4,7 @@
 #include "startdialog.h"
 #include "logger.h"
 
-
-mainWindow::mainWindow(Subject *control) : Observer(control)
+mainWindow::mainWindow(Subject *control, Scenario *sn) : Observer(control), ObservWindow(sn)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
@@ -80,6 +79,11 @@ void mainWindow::moveToCenter()
 void mainWindow::update()
 {
 
+}
+
+void mainWindow::updateWindow()
+{
+    setNextLine(getScenario()->msg);
 }
 
 void mainWindow::resizeEvent(QResizeEvent *event)

@@ -19,6 +19,7 @@
 #include <QDesktopWidget>
 #include <string>
 #include <observer.h>
+#include <composite.h>
 
 class CenterWidget;
 class Logger;
@@ -26,17 +27,18 @@ class StartDialog;
 
 using std::string;
 
-class mainWindow : public QMainWindow, Observer
+class mainWindow : public QMainWindow, Observer, ObservWindow
 {
     Q_OBJECT
 
 public:
-    explicit mainWindow(Subject *control);
+    explicit mainWindow(Subject *control, Scenario *sn);
     ~mainWindow();
     void setNextLine(string);
     Logger *getLogger();
     void moveToCenter();
     virtual void update() override;
+    virtual void updateWindow() override;
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
