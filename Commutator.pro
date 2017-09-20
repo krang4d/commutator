@@ -1,7 +1,7 @@
 QT += core gui widgets
 INCLUDEPATH += .
 TEMPLATE = app
-//CONFIG += console c++11
+CONFIG += console c++11
 
 SOURCES += main.cpp \
     measurement.cpp \
@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     observer.cpp \
     tools.cpp \
-    startdialog.cpp
+    startdialog.cpp \
+    scenariothread.cpp
 
 HEADERS += \
     measurement.h \
@@ -25,7 +26,8 @@ HEADERS += \
     mainwindow.h \
     observer.h \
     tools.h \
-    startdialog.h
+    startdialog.h \
+    scenariothread.h
 
 FORMS += \
     tools.ui \

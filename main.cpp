@@ -9,10 +9,14 @@
 #include "powermanager.h"
 #include "observer.h"
 #include "tools.h"
+#include <QThread>
+#include <scenariothread.h>
 
 using namespace std;
 
+class threadClass;
 Scenario *CreateScenario(Subject *control_value, Logger *log);
+void threadFunction(int &a);
 
 int main(int argc, char *argv[])
 {
@@ -53,7 +57,23 @@ int main(int argc, char *argv[])
         log->log(msg);
         mw->setNextLine(msg);
     }
-    sc->action();
+
+    ScenarioThread thread1;
+    //ScenarioThread thread2;
+    thread1.start();
+    //thread2.start();
+
+//    std::thread thr(threadFunction, std::ref(control_value), std::ref(log));
+//    thr.join();
+
+
+    //sc->action();
+    //function<void()>f = bind(&Scenario::action, sc);
+
+    //std::thread *thr = new std::thread(bind(&Scenario::action, sc));
+    //thr->join();
+
+    //sc->action();
     //mw->setNextLine(msg);
     //delete st;
     //delete mw;
@@ -86,4 +106,3 @@ Scenario *CreateScenario(Subject *control_value, Logger *log)
     sc->add(PowerOFF);
     return sc;
 }
-

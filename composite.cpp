@@ -1,4 +1,5 @@
 ﻿#include "composite.h"
+#include "QThread"
 
 IComposite::IComposite()
 {
@@ -55,6 +56,7 @@ std::string Scenario::action(){
         setmsg("<div>" + sptr->action() + " " + log_->GetTime() + "</div>");
         log_->log(msg);
         notify();
+        QThread::msleep(1000);
     }
     return msg;
 }
