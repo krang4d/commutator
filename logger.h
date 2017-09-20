@@ -8,8 +8,6 @@
 #include <ctime>
 #include <chrono>
 
-class mainWindow;
-
 using namespace std;
 
 class Logger

@@ -1,5 +1,7 @@
 ﻿#include "composite.h"
 
+class notify {};
+
 IComposite::IComposite()
 {
 
@@ -22,7 +24,7 @@ void IComposite::remove(const SPtr&){
 //    throw std::runtime_error("IText: Can't action from a leaf");
 //}
 
-Scenario::Scenario(Subject *sub, Logger *log) : Observer(sub), log_(log)
+Scenario::Scenario(Subject *sub, Logger *log, Mediator *m) : Observer(sub), log_(log), Colleague(m)
 {
 
 }
@@ -52,8 +54,9 @@ void Scenario::replace(const SPtr& oldValue, const SPtr& newValue){
 std::string Scenario::action(){
     for(SPtr& sptr : children_){
         if (!getNext()) throw AbortScenario();
-        msg = "<div>" + sptr->action() + " " + log_->GetTime() + "</div>";
-        notify();
+        setmsg("<div>" + sptr->action() + " " + log_->GetTime() + "</div>");
+        log_->log(msg);
+        Send(msg);
     }
     return msg;
 }
@@ -63,23 +66,44 @@ void Scenario::update()
     setNext(getSubject()->getBodyPower() && getSubject()->getDock());
 }
 
-void Scenario::attach(ObservWindow *obsw)
+void Scenario::Send(string message)
 {
-    views.push_back(obsw);
+    mediator_->Send(message, this);
 }
 
-void Scenario::notify()
+void Scenario::Notify(string message)
 {
-    for(unsigned int i=0; i < views.size(); i++)
-        views[i]->updateWindow();
+    //throw notify;
 }
 
-ObservWindow::ObservWindow(Scenario *sn) : sub(sn)
+string Scenario::getmsg()
 {
-    sub->attach(this);
+    return msg;
 }
 
-Scenario *ObservWindow::getScenario()
+void Scenario::setmsg(string m)
 {
-    return sub;
+    msg = m;
+}
+
+
+void ConcreteMediator::SetScenario(Scenario *c)
+{
+           m_Colleague1=c;
+}
+
+void ConcreteMediator::SetMainWindow(mainWindow *c)
+{
+           m_Colleague2=c;
+}
+
+void ConcreteMediator::Send(string message, Colleague *colleague) const
+{
+    if (colleague==m_Colleague1)
+    {
+            m_Colleague2->Notify(message);
+    }
+    else if (colleague==m_Colleague2)
+    {
+            m_Colleague1->Notify(message);
 }

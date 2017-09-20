@@ -4,7 +4,7 @@
 #include "startdialog.h"
 #include "logger.h"
 
-mainWindow::mainWindow(Subject *control, Scenario *sn) : Observer(control), ObservWindow(sn)
+mainWindow::mainWindow(Subject *control, Mediator *m) : Observer(control), Colleague(m)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
@@ -81,9 +81,14 @@ void mainWindow::update()
 
 }
 
-void mainWindow::updateWindow()
+void mainWindow::Send(std::string message)
 {
-    setNextLine(getScenario()->msg);
+    mediator_->Send(message, this);
+}
+
+void mainWindow::Notify(std::string message)
+{
+   setNextLine(message);
 }
 
 void mainWindow::resizeEvent(QResizeEvent *event)

@@ -24,21 +24,24 @@
 class CenterWidget;
 class Logger;
 class StartDialog;
+class Colleague;
 
 using std::string;
 
-class mainWindow : public QMainWindow, Observer, ObservWindow
+class mainWindow : public Colleague, public QMainWindow, public Observer
 {
     Q_OBJECT
 
 public:
-    explicit mainWindow(Subject *control, Scenario *sn);
+    mainWindow(Subject *control, Mediator *m);
     ~mainWindow();
     void setNextLine(string);
     Logger *getLogger();
     void moveToCenter();
     virtual void update() override;
-    virtual void updateWindow() override;
+
+    void Send(std::string message);
+    void Notify(std::string message);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -75,8 +78,6 @@ private:
 
     QTimer *tm;
     bool askClose();
-
-
 
 };
 

@@ -9,9 +9,31 @@
 #include <vector>
 #include <observer.h>
 #include <logger.h>
+#include <mainwindow.h>
 
 class AbortScenario {};
-class ObservWindow;
+
+class Mediator;
+class Colleague;
+class ConcreteMediator;
+class mainWindow;
+
+class Mediator
+{
+public:
+        virtual void Send(std::string const& message, Colleague *colleague) const = 0;
+};
+
+class Colleague
+{
+protected:
+        Mediator* mediator_;
+
+public:
+        explicit Colleague(Mediator *mediator):mediator_(mediator)
+        {
+        }
+};
 
 class IComposite
 {
@@ -25,10 +47,10 @@ public:
     virtual std::string action() = 0;
 };
 
-class Scenario: public IComposite, Observer
+class Scenario: public IComposite, Observer, public Colleague
 {
 public:
-    Scenario(Subject *sub, Logger *log);
+    Scenario(Subject *sub, Logger *log, Mediator *m);
     virtual ~Scenario() {}
     bool getNext() const;
     void setNext(bool next);
@@ -38,25 +60,32 @@ public:
     std::string action() override;
     void update() override;
 
-    void attach(ObservWindow *obsw);
-    void notify();
+    void Send(std::string message);
+    void Notify(std::string message);
 
     std::string msg;
 private:
+    std::string getmsg();
+    void setmsg(std::string m);
+
+protected:
     std::list<SPtr> children_;
-    std::vector<ObservWindow *> views;
     bool next_;
     Logger *log_;
 };
 
-class ObservWindow
+
+class ConcreteMediator: public Mediator
 {
-public:
-    ObservWindow(Scenario *sn);
-    virtual void updateWindow() = 0;
 protected:
-    Scenario *sub;
-    Scenario *getScenario();
+        Scenario *m_Colleague1;
+        mainWindow *m_Colleague2;
+public:
+        void SetScenario(Scenario *c);
+
+        void SetMainWindow(mainWindow *c);
+
+        virtual void Send(std::string message, Colleague *colleague) const;
 };
 
 #endif // COMPOSITE_H

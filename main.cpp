@@ -9,10 +9,11 @@
 #include "powermanager.h"
 #include "observer.h"
 #include "tools.h"
+#include "composite.h"
 
 using namespace std;
 
-Scenario *CreateScenario(Subject *control_value, Logger *log);
+Scenario *CreateScenario(Subject *control_value, Logger *log, Mediator *m);
 
 int main(int argc, char *argv[])
 {
@@ -22,16 +23,21 @@ int main(int argc, char *argv[])
     Subject *control_value = new Subject();
     Logger *log = new AllLogger();
 
-    Scenario *sc = CreateScenario(control_value, log);
+    ConcreteMediator *m = new ConcreteMediator;
+
+    Scenario *sc = CreateScenario(control_value, log, m);
     control_value->setBodyPower(true);
     control_value->setDock(true);
 
-    mainWindow *mw = new mainWindow(control_value, sc);
+
+    mainWindow *mw = new mainWindow(control_value, m);
     mw->setWindowTitle(QWidget::tr("Прототип коммутатора"));
     mw->resize(1000, 500);
     mw->moveToCenter();
     mw->show();
 
+    m->SetScenario(sc);
+    m->SetMainWindow(mw);
 
     //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
     //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
@@ -64,7 +70,7 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-Scenario *CreateScenario(Subject *control_value, Logger *log)
+Scenario *CreateScenario(Subject *control_value, Logger *log, Mediator *m )
 {
     IComposite::SPtr PowerON(new powermanager(27));
     IComposite::SPtr PowerOFF(new powermanager(0));
@@ -75,7 +81,7 @@ Scenario *CreateScenario(Subject *control_value, Logger *log)
     IComposite::SPtr Y0(new mswitch(mswitch::Y0));
     IComposite::SPtr Y1(new mswitch(mswitch::Y1));
 
-    Scenario *sc = new Scenario(control_value, log);
+    Scenario *sc = new Scenario(control_value, log, m);
     sc->add(PowerON);
     sc->add(Volt);
     sc->add(Y0);
