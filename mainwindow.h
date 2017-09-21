@@ -53,6 +53,7 @@ private slots:
     void run();
     void view();
     void toolsWindow();
+    void setmessage(QString);
 
 signals:
     void tools(bool);

@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
     }
 
     ScenarioThread thread1;
+    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setmessage(QString)));
     //ScenarioThread thread2;
     thread1.start();
     //thread2.start();

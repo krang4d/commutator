@@ -9,11 +9,12 @@
 #include <vector>
 #include <observer.h>
 #include <logger.h>
+#include <QWidget>
 
 class AbortScenario {};
 class ObservWindow;
 
-class IComposite
+class IComposite : public QWidget
 {
 public:
     typedef std::shared_ptr<IComposite> SPtr;
@@ -27,6 +28,7 @@ public:
 
 class Scenario: public IComposite, Observer
 {
+    Q_OBJECT
 public:
     Scenario(Subject *sub, Logger *log);
     virtual ~Scenario() {}
@@ -50,6 +52,8 @@ private:
     bool next_;
     Logger *log_;
     std::string msg;
+signals:
+    void newmessage(QString);
 };
 
 class ObservWindow

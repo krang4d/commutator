@@ -131,6 +131,11 @@ void mainWindow::toolsWindow()
     emit tools(false);
 }
 
+void mainWindow::setmessage(QString m)
+{
+    setNextLine(m.toStdString());
+}
+
 bool mainWindow::askClose()
 {
     int r = QMessageBox::question(this, tr("Подтвердите"),

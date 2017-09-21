@@ -7,6 +7,7 @@ ScenarioThread::ScenarioThread()
     sc = new Scenario(control_value, log);
     control_value->setBodyPower(true);
     control_value->setDock(true);
+    connect(sc, SIGNAL(newmessage(QString)), this, SIGNAL(threadmessage(QString)));
 }
 
 ScenarioThread::~ScenarioThread()
