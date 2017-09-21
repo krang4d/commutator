@@ -10,6 +10,7 @@
 #include <observer.h>
 #include <logger.h>
 #include <QWidget>
+#include <QString>
 
 class AbortScenario {};
 class ObservWindow;
@@ -26,11 +27,11 @@ public:
     virtual std::string action() = 0;
 };
 
-class Scenario: public IComposite, Observer
+class Scenario: public IComposite
 {
     Q_OBJECT
 public:
-    Scenario(Subject *sub, Logger *log);
+    Scenario();
     virtual ~Scenario() {}
     bool getNext() const;
     void setNext(bool next);
@@ -38,32 +39,17 @@ public:
     void remove(const SPtr& sptr) override;
     void replace(const SPtr& oldValue, const SPtr& newValue);
     std::string action() override;
-    void update() override;
-
-    void attach(ObservWindow *obsw);
-    void notify();
 
     std::string getmsg();
     void setmsg(std::string m);
 
-private:
-    std::list<SPtr> children_;
-    std::vector<ObservWindow *> views;
-    bool next_;
-    Logger *log_;
-    std::string msg;
 signals:
     void newmessage(QString);
-};
 
-class ObservWindow
-{
-public:
-    ObservWindow(Scenario *sn);
-    virtual void updateWindow() = 0;
-protected:
-    Scenario *sub;
-    Scenario *getScenario();
+private:
+    std::list<SPtr> children_;
+    bool next_;
+    std::string msg;
 };
 
 #endif // COMPOSITE_H

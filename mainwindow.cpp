@@ -4,7 +4,7 @@
 #include "startdialog.h"
 #include "logger.h"
 
-mainWindow::mainWindow(Subject *control, Scenario *sn) : Observer(control), ObservWindow(sn)
+mainWindow::mainWindow(Subject *control, Logger *log) : Observer(control), log_(log)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
@@ -65,6 +65,8 @@ mainWindow::~mainWindow()
 
 void mainWindow::setNextLine(string msg)
 {
+    msg = "<div>" + msg + " " + log_->GetTime() + "</div>";
+    log_->log(msg);
     cw->setMessage(msg);
 }
 
@@ -80,11 +82,6 @@ void mainWindow::update()
 {
     cw->BodyPowerChange(getSubject()->getBodyPower());
     cw->DockingChange(getSubject()->getDock());
-}
-
-void mainWindow::updateWindow()
-{
-    setNextLine(getScenario()->getmsg());
 }
 
 void mainWindow::resizeEvent(QResizeEvent *event)
@@ -131,9 +128,9 @@ void mainWindow::toolsWindow()
     emit tools(false);
 }
 
-void mainWindow::setmessage(QString m)
+void mainWindow::setmessage(QString str)
 {
-    setNextLine(m.toStdString());
+    setNextLine(str.toStdString());
 }
 
 bool mainWindow::askClose()

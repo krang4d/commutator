@@ -2,18 +2,14 @@
 
 ScenarioThread::ScenarioThread()
 {
-    control_value = new Subject();
-    log = new AllLogger();
-    sc = new Scenario(control_value, log);
-    control_value->setBodyPower(true);
-    control_value->setDock(true);
-    connect(sc, SIGNAL(newmessage(QString)), this, SIGNAL(threadmessage(QString)));
+    sc = new Scenario();
+    sc->setNext(true);
+    connect(sc, SIGNAL(newmessage(QString)), SIGNAL(threadmessage(QString)));
 }
 
 ScenarioThread::~ScenarioThread()
 {
-    delete control_value;
-    delete log;
+    delete sc;
 }
 
 void ScenarioThread::run(){

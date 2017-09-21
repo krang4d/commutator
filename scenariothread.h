@@ -13,8 +13,7 @@
 class ScenarioThread : public QThread
 {
     Q_OBJECT
-    Subject *control_value;
-    Logger *log;
+protected:
     Scenario *sc;
 public:
     ScenarioThread();

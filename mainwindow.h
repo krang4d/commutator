@@ -27,18 +27,17 @@ class StartDialog;
 
 using std::string;
 
-class mainWindow : public QMainWindow, Observer, ObservWindow
+class mainWindow : public QMainWindow, Observer
 {
     Q_OBJECT
 
 public:
-    explicit mainWindow(Subject *control, Scenario *sn);
+    explicit mainWindow(Subject *control, Logger *log);
     ~mainWindow();
     void setNextLine(string);
     Logger *getLogger();
     void moveToCenter();
     virtual void update() override;
-    virtual void updateWindow() override;
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -53,7 +52,7 @@ private slots:
     void run();
     void view();
     void toolsWindow();
-    void setmessage(QString);
+    void setmessage(QString str);
 
 signals:
     void tools(bool);
@@ -73,6 +72,7 @@ private:
     QLabel *sb3;
 
     CenterWidget *cw;
+    Logger *log_;
 
     QTimer *tm;
     bool askClose();
