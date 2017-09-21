@@ -4,7 +4,7 @@
 #include "startdialog.h"
 #include "logger.h"
 
-mainWindow::mainWindow(Subject *control, Scenario *sn) : Observer(control), ObservWindow(sn)
+mainWindow::mainWindow(Subject *control) : Observer(control)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
@@ -82,11 +82,6 @@ void mainWindow::update()
     cw->DockingChange(getSubject()->getDock());
 }
 
-void mainWindow::updateWindow()
-{
-    setNextLine(getScenario()->getmsg());
-}
-
 void mainWindow::resizeEvent(QResizeEvent *event)
 {
     QSize sz = event->size();
@@ -129,6 +124,11 @@ void mainWindow::view()
 void mainWindow::toolsWindow()
 {
     emit tools(false);
+}
+
+void mainWindow::setmessage(QString str)
+{
+    setNextLine(str.toStdString());
 }
 
 bool mainWindow::askClose()

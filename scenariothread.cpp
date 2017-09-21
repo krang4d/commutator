@@ -2,17 +2,13 @@
 
 ScenarioThread::ScenarioThread()
 {
-    control_value = new Subject();
-    log = new AllLogger();
-    sc = new Scenario(control_value, log);
-    control_value->setBodyPower(true);
-    control_value->setDock(true);
+    sc = new Scenario();
+    sc->setNext(true);
 }
 
 ScenarioThread::~ScenarioThread()
 {
-    delete control_value;
-    delete log;
+    delete sc;
 }
 
 void ScenarioThread::run(){
@@ -34,5 +30,7 @@ void ScenarioThread::run(){
     sc->add(Resist);
     sc->add(Y0);
     sc->add(PowerOFF);
+
+    connect(sc, SIGNAL(newmessage(QString)), SIGNAL(threadmessage(QString)));
     sc->action();
 }

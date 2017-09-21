@@ -15,7 +15,7 @@
 using namespace std;
 
 class threadClass;
-Scenario *CreateScenario(Subject *control_value, Logger *log);
+Scenario *CreateScenario();
 void threadFunction(int &a);
 
 int main(int argc, char *argv[])
@@ -26,11 +26,10 @@ int main(int argc, char *argv[])
     Subject *control_value = new Subject();
     Logger *log = new AllLogger();
 
-    Scenario *sc = CreateScenario(control_value, log);
     control_value->setBodyPower(true);
     control_value->setDock(true);
 
-    mainWindow *mw = new mainWindow(control_value, sc);
+    mainWindow *mw = new mainWindow(control_value);
     mw->setWindowTitle(QWidget::tr("Прототип коммутатора"));
     mw->resize(1000, 500);
     mw->moveToCenter();
@@ -59,6 +58,7 @@ int main(int argc, char *argv[])
     }
 
     ScenarioThread thread1;
+    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setmessage(QString)));
     //ScenarioThread thread2;
     thread1.start();
     //thread2.start();
@@ -81,28 +81,4 @@ int main(int argc, char *argv[])
     //delete log;
     //delete sc;
     return app.exec();
-}
-
-Scenario *CreateScenario(Subject *control_value, Logger *log)
-{
-    IComposite::SPtr PowerON(new powermanager(27));
-    IComposite::SPtr PowerOFF(new powermanager(0));
-
-    IComposite::SPtr Volt(new measurement(measurement::VOLT));
-    IComposite::SPtr Resist(new measurement( measurement::RESIST));
-
-    IComposite::SPtr Y0(new mswitch(mswitch::Y0));
-    IComposite::SPtr Y1(new mswitch(mswitch::Y1));
-
-    Scenario *sc = new Scenario(control_value, log);
-    sc->add(PowerON);
-    sc->add(Volt);
-    sc->add(Y0);
-    sc->add(Resist);
-    sc->add(Y1);
-    sc->add(Volt);
-    sc->add(Resist);
-    sc->add(Y0);
-    sc->add(PowerOFF);
-    return sc;
 }

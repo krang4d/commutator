@@ -12,13 +12,15 @@
 
 class ScenarioThread : public QThread
 {
-    Subject *control_value;
-    Logger *log;
+    Q_OBJECT
+
     Scenario *sc;
 public:
     ScenarioThread();
     ~ScenarioThread();
     void run() override;
+signals:
+    void threadmessage(QString);
 };
 
 #endif // SCENARIOTHREAD_H
