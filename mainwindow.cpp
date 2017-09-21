@@ -4,6 +4,7 @@
 #include "startdialog.h"
 #include "logger.h"
 
+
 mainWindow::mainWindow(Subject *control, Logger *log) : Observer(control), log_(log)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");

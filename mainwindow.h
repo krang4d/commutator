@@ -55,7 +55,6 @@ private slots:
 public slots:
     void setNextLine(QString);
 
-
 signals:
     void tools(bool);
     void runScenario();
