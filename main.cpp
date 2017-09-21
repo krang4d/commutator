@@ -9,14 +9,12 @@
 #include "powermanager.h"
 #include "observer.h"
 #include "tools.h"
-#include <QThread>
-#include <scenariothread.h>
 
 using namespace std;
 
-class threadClass;
-Scenario *CreateScenario();
-void threadFunction(int &a);
+//class threadClass;
+//Scenario *CreateScenario();
+//void threadFunction(int &a);
 
 int main(int argc, char *argv[])
 {
@@ -38,7 +36,7 @@ int main(int argc, char *argv[])
 
     //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
     //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
-    string msg = string("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + string("Начало работы программы ") + log->GetDateTime() + string("</div>");
+    QString msg = QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + QString("Начало работы программы ") + QString(log->GetDateTime().c_str()) + QString("</div>");
     mw->setNextLine(msg);
 
     tools *ts = new tools(control_value, (QDialog*)mw);
@@ -48,15 +46,16 @@ int main(int argc, char *argv[])
     QObject::connect(st, SIGNAL(rejected()), mw, SLOT(close()));
     QObject::connect(mw, SIGNAL(tools(bool)), ts, SLOT(setHidden(bool)));
     if(st->exec() == QDialog::Accepted) {
-        string msg("<div>Ф.И.О. оператора: "+st->getFIO().toStdString()+"</div>");
+        QString msg("<div>Ф.И.О. оператора: " + st->getFIO() + "</div>");
         mw->setNextLine(msg);
-        msg = "<div>Номер прибора: "+st->getNumber().toStdString()+"</div>";
+        msg = "<div>Номер прибора: " + st->getNumber() + "</div>";
         mw->setNextLine(msg);
     }
     ScenarioThread thread1;
-    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setmessage(QString)));
-    //ScenarioThread thread2;
-    thread1.start();
+    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setNextLine(QString)));
+    QObject::connect(mw, SIGNAL(runScenario()), &thread1, SLOT(start()));
+//    ScenarioThread thread2;
+//    thread1.start();
     //thread2.start();
 
 //    std::thread thr(threadFunction, std::ref(control_value), std::ref(log));

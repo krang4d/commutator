@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QString>
 #include <QSpacerItem>
+#include <QVector>
 #include <string>
 
 class CenterWidget : public QWidget
@@ -17,7 +18,7 @@ class CenterWidget : public QWidget
 public:
     CenterWidget(QWidget *parent = 0);
     virtual ~CenterWidget();
-    void setMessage(std::string msg);
+    void setMessage(QString msg);
 //private:
     QVBoxLayout *masterLayout;
     QVBoxLayout *ledSlaveVLayout;
@@ -45,7 +46,7 @@ public slots:
     void BodyPowerChange(bool);
 
 protected:
-    std::vector<std::string> messages;
+    QVector<QString> messages;
 };
 
 #endif // CENTERWIDGET_H

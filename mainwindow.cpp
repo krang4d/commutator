@@ -11,14 +11,14 @@ mainWindow::mainWindow(Subject *control, Logger *log) : Observer(control), log_(
 
     InitWindow();
 
-    connect(startAction, SIGNAL(triggered(bool)), this, SLOT(run()));
-    connect(viewAction, SIGNAL(triggered(bool)), this, SLOT(view()));
-    connect(aboutAction, SIGNAL(triggered(bool)), this, SLOT(about()));
-    connect(exitAction, SIGNAL(triggered(bool)), this, SLOT(close()));
-    connect(cw, SIGNAL(Exit()), this, SLOT(close()));
-    connect(cw, SIGNAL(Start()), this, SLOT(run()));
-    connect(cw, SIGNAL(View()), this, SLOT(view()));
-    connect(toolsAction, SIGNAL(triggered(bool)), this, SLOT(toolsWindow()));
+    connect(startAction, SIGNAL(triggered(bool)), SIGNAL(runScenario()));
+    connect(viewAction, SIGNAL(triggered(bool)), SLOT(view()));
+    connect(aboutAction, SIGNAL(triggered(bool)), SLOT(about()));
+    connect(exitAction, SIGNAL(triggered(bool)), SLOT(close()));
+    connect(cw, SIGNAL(Exit()), SLOT(close()));
+    connect(cw, SIGNAL(Start()), SIGNAL(runScenario()));
+    connect(cw, SIGNAL(View()), SLOT(view()));
+    connect(toolsAction, SIGNAL(triggered(bool)), SIGNAL(tools(bool)));
 }
 
 void mainWindow::InitWindow()
@@ -63,10 +63,10 @@ mainWindow::~mainWindow()
 {
 }
 
-void mainWindow::setNextLine(string msg)
+void mainWindow::setNextLine(QString msg)
 {
-    msg = "<div>" + msg + " " + log_->GetTime() + "</div>";
-    log_->log(msg);
+    msg = "<div>" + msg + " " + QString(log_->GetTime().c_str()) + "</div>";
+    log_->log(msg.toStdString());
     cw->setMessage(msg);
 }
 
@@ -110,27 +110,11 @@ void mainWindow::about()
        "<p><b>Автор:</b> Головкин П.Г.</p>"));
 }
 
-void mainWindow::run()
-{
-    emit runScenario();
-    //sc->action();
-}
-
 void mainWindow::view()
 {
     QProcess vim;
     vim.startDetached("google-chrome Commutator.html");
     vim.waitForFinished();
-}
-
-void mainWindow::toolsWindow()
-{
-    emit tools(false);
-}
-
-void mainWindow::setmessage(QString str)
-{
-    setNextLine(str.toStdString());
 }
 
 bool mainWindow::askClose()

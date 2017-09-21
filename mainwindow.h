@@ -20,6 +20,8 @@
 #include <string>
 #include <observer.h>
 #include <composite.h>
+#include <QThread>
+#include <scenariothread.h>
 
 class CenterWidget;
 class Logger;
@@ -34,7 +36,6 @@ class mainWindow : public QMainWindow, Observer
 public:
     explicit mainWindow(Subject *control, Logger *log);
     ~mainWindow();
-    void setNextLine(string);
     Logger *getLogger();
     void moveToCenter();
     virtual void update() override;
@@ -49,10 +50,11 @@ protected:
 
 private slots:
     void about();
-    void run();
     void view();
-    void toolsWindow();
-    void setmessage(QString str);
+    //void setmessage(QString str);
+public slots:
+    void setNextLine(QString);
+
 
 signals:
     void tools(bool);
@@ -76,6 +78,7 @@ private:
 
     QTimer *tm;
     bool askClose();
+    ScenarioThread *thread1;
 
 
 

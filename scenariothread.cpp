@@ -21,6 +21,7 @@ void ScenarioThread::run(){
 
     IComposite::SPtr Y0(new mswitch(mswitch::Y0));
     IComposite::SPtr Y1(new mswitch(mswitch::Y1));
+    IComposite::SPtr Y2(new mswitch(mswitch::Y2));
 
     sc->add(PowerON);
     sc->add(Volt);
@@ -29,7 +30,7 @@ void ScenarioThread::run(){
     sc->add(Y1);
     sc->add(Volt);
     sc->add(Resist);
-    sc->add(Y0);
+    sc->add(Y2);
     sc->add(PowerOFF);
     sc->action();
 }
