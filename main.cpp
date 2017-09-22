@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
         msg = "<div>Номер прибора: " + st->getNumber() + "</div>";
         mw->setNextLine(msg);
     }
-    ScenarioThread thread1;
-    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setNextLine(QString)));
-    QObject::connect(mw, SIGNAL(runScenario()), &thread1, SLOT(start()));
+//    ScenarioThread thread1;
+//    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setNextLine(QString)));
+//    QObject::connect(mw, SIGNAL(runScenario()), &thread1, SLOT(start()));
 //    ScenarioThread thread2;
 //    thread1.start();
     //thread2.start();

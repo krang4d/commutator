@@ -54,10 +54,11 @@ private slots:
     //void setmessage(QString str);
 public slots:
     void setNextLine(QString);
+    void runScenario();
 
 signals:
     void tools(bool);
-    void runScenario();
+
 
 private:
     QAction *startAction;
@@ -77,8 +78,7 @@ private:
 
     QTimer *tm;
     bool askClose();
-    ScenarioThread *thread1;
-
+    ScenarioThread thread1;
 
 
 };
