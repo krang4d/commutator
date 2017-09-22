@@ -61,7 +61,6 @@ void mainWindow::InitWindow()
     connect(&thread1, SIGNAL(threadmessage(QString)), SLOT(setNextLine(QString)));
     connect(cw, SIGNAL(Start()), SLOT(runScenario()));
     connect(cw, SIGNAL(Exit()), SLOT(close()));
-    connect(cw, SIGNAL(Start()), SIGNAL(runScenario()));
     connect(cw, SIGNAL(View()), SLOT(view()));
 }
 
