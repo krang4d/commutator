@@ -49,7 +49,7 @@ void mainWindow::InitWindow()
     sb3 = new QLabel(statusBar());
 
     statusBar()->setSizeGripEnabled(false);
-    statusBar()->addWidget(sb1, 2);
+    statusBar()->addWidget(sb1, 3);
     statusBar()->addWidget(sb2, 1);
     statusBar()->addWidget(sb3, 1);
 
@@ -75,6 +75,7 @@ void mainWindow::setNextLine(QString msg, bool time)
     if(time)
     {
         msg = "<div>" + msg + " " + QString(log_->GetTime().c_str()) + "</div>";
+        sb1->setText(msg);
         log_->log(msg.toStdString());
         cw->setMessage(msg);
     }
