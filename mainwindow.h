@@ -53,8 +53,9 @@ private slots:
     void view();
     //void setmessage(QString str);
 public slots:
-    void setNextLine(QString);
+    void setNextLine(QString, bool time = 1);
     void runScenario();
+    void finishScenario();
 
 signals:
     void tools(bool);

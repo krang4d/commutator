@@ -11,6 +11,7 @@ ScenarioThread::~ScenarioThread()
 void ScenarioThread::run(){
     Scenario *sc = new Scenario();
     sc->setNext(true);
+    emit threadmessage(QString(tr("<span style='color:#ffaa00'>Начало выполнения сценария</span>")));
     connect(sc, SIGNAL(newmessage(QString)), SIGNAL(threadmessage(QString)));
 
     IComposite::SPtr PowerON(new powermanager(27));
@@ -33,5 +34,6 @@ void ScenarioThread::run(){
     sc->add(Y2);
     sc->add(PowerOFF);
     sc->action();
+    emit threadmessage(QString(tr("<span style='color:#ffaa00'>Конец выполнения сценария</span>")));
     delete sc;
 }

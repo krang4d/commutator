@@ -55,7 +55,7 @@ std::string Scenario::action(){
         if (!getNext()) throw AbortScenario();
         setmsg(sptr->action());
         emit newmessage(QString(getmsg().c_str()));
-        QThread::msleep(1000);
+        QThread::msleep(500);
     }
     return msg;
 }

@@ -59,20 +59,31 @@ void mainWindow::InitWindow()
     cw = new CenterWidget();
     setCentralWidget(cw);
     connect(&thread1, SIGNAL(threadmessage(QString)), SLOT(setNextLine(QString)));
+    connect(&thread1, SIGNAL(finished()), SLOT(finishScenario()));
     connect(cw, SIGNAL(Start()), SLOT(runScenario()));
     connect(cw, SIGNAL(Exit()), SLOT(close()));
     connect(cw, SIGNAL(View()), SLOT(view()));
+
 }
 
 mainWindow::~mainWindow()
 {
 }
 
-void mainWindow::setNextLine(QString msg)
+void mainWindow::setNextLine(QString msg, bool time)
 {
-    msg = "<div>" + msg + " " + QString(log_->GetTime().c_str()) + "</div>";
+    if(time)
+    {
+        msg = "<div>" + msg + " " + QString(log_->GetTime().c_str()) + "</div>";
+        log_->log(msg.toStdString());
+        cw->setMessage(msg);
+    }
+    else
+    {
+    msg = "<div>" + msg + "</div>";
     log_->log(msg.toStdString());
     cw->setMessage(msg);
+    }
 }
 
 void mainWindow::moveToCenter()
@@ -147,11 +158,18 @@ void mainWindow::runScenario()
 {
     if(thread1.isRunning())
     {
-        cw->StartButton->setText(tr("Начать проверку"));
         thread1.terminate();
+        cw->StartButton->setText(tr("Начать проверку"));
     }
     else
-    cw->StartButton->setText(tr("Прервать проверку"));
-    thread1.start();
+    {
+        thread1.start();
+        cw->StartButton->setText(tr("Прервать проверку"));
+    }
+}
+
+void mainWindow::finishScenario()
+{
+    cw->StartButton->setText(tr("Начать проверку"));
 }
 

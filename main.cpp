@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     //log->log("<meta http-equiv=\"refresh\" content=\"10\">");
     //QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>%1 %2</div>").arg("Начало работы программы").arg(log->GetDataTime());
     QString msg = QString("<div style='color:#00ff00; margin: 5px 0px; font-size: 20px'>") + QString("Начало работы программы ") + QString(log->GetDateTime().c_str()) + QString("</div>");
-    mw->setNextLine(msg);
+    mw->setNextLine(msg, false);
 
     tools *ts = new tools(control_value, (QDialog*)mw);
     ts->setHidden(true);
@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
     QObject::connect(mw, SIGNAL(tools(bool)), ts, SLOT(setHidden(bool)));
     if(st->exec() == QDialog::Accepted) {
         QString msg("<div>Ф.И.О. оператора: " + st->getFIO() + "</div>");
-        mw->setNextLine(msg);
+        mw->setNextLine(msg, false);
         msg = "<div>Номер прибора: " + st->getNumber() + "</div>";
-        mw->setNextLine(msg);
+        mw->setNextLine(msg, false);
     }
 //    ScenarioThread thread1;
 //    QObject::connect(&thread1, SIGNAL(threadmessage(QString)), mw, SLOT(setNextLine(QString)));
