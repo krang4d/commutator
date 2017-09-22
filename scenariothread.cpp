@@ -1,18 +1,18 @@
 ﻿#include "scenariothread.h"
 
 ScenarioThread::ScenarioThread()
-{
-    sc = new Scenario();
-    sc->setNext(true);
-    connect(sc, SIGNAL(newmessage(QString)), SIGNAL(threadmessage(QString)));
+{   
 }
 
 ScenarioThread::~ScenarioThread()
 {
-    delete sc;
 }
 
 void ScenarioThread::run(){
+    Scenario *sc = new Scenario();
+    sc->setNext(true);
+    connect(sc, SIGNAL(newmessage(QString)), SIGNAL(threadmessage(QString)));
+
     IComposite::SPtr PowerON(new powermanager(27));
     IComposite::SPtr PowerOFF(new powermanager(0));
 
@@ -33,4 +33,5 @@ void ScenarioThread::run(){
     sc->add(Y2);
     sc->add(PowerOFF);
     sc->action();
+    delete sc;
 }

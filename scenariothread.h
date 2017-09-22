@@ -13,8 +13,6 @@
 class ScenarioThread : public QThread
 {
     Q_OBJECT
-protected:
-    Scenario *sc;
 public:
     ScenarioThread();
     ~ScenarioThread();

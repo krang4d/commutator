@@ -87,7 +87,7 @@ void CenterWidget::BodyPowerChange(bool b)
 }
 
 void CenterWidget::setMessage(QString msg){
-    messages.push_back(msg);
+//    messages.push_back(msg);
 //    std::string wstr;
 //    for(uint i = 0; i < messages.size(); i++)
 //        {

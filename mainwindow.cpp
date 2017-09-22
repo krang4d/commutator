@@ -11,39 +11,39 @@ mainWindow::mainWindow(Subject *control, Logger *log) : Observer(control), log_(
     QTextCodec::setCodecForLocale(codec);
 
     InitWindow();
-
-    connect(startAction, SIGNAL(triggered(bool)), SIGNAL(runScenario()));
-    connect(viewAction, SIGNAL(triggered(bool)), SLOT(view()));
-    connect(aboutAction, SIGNAL(triggered(bool)), SLOT(about()));
-    connect(exitAction, SIGNAL(triggered(bool)), SLOT(close()));
-    connect(cw, SIGNAL(Exit()), SLOT(close()));
-    connect(cw, SIGNAL(Start()), SIGNAL(runScenario()));
-    connect(cw, SIGNAL(View()), SLOT(view()));
-    connect(toolsAction, SIGNAL(triggered(bool)), SIGNAL(tools(bool)));
 }
 
 void mainWindow::InitWindow()
 {
-    cw = new CenterWidget(this);
+    fileMenu = new QMenu("&Файл");
     startAction = new QAction(tr("Начать проверку"));
     startAction->setShortcut(tr("Ctrl+R"));
+    connect(startAction, SIGNAL(triggered(bool)), SIGNAL(runScenario()));
+    fileMenu->addAction(startAction);
+
     viewAction = new QAction(tr("Просмотреть файл"));
+    connect(viewAction, SIGNAL(triggered(bool)), SLOT(view()));
+    fileMenu->addAction(viewAction);
+
     toolsAction = new QAction(tr("Дополнительные возможности..."));
-    aboutAction = new QAction(tr("O программе"), this);
-    aboutAction->setStatusTip(tr("Сведения о программе"));
+    connect(toolsAction, SIGNAL(triggered(bool)), SIGNAL(tools(bool)));
+    fileMenu->addAction(toolsAction);
+
     exitAction = new QAction(tr("Выход"));
     exitAction->setStatusTip(tr("Выход из программы"));
     exitAction->setShortcut(tr("Ctrl+Q"));
-
-    fileMenu = menuBar()->addMenu(tr("&Файл"));
-    fileMenu->addAction(startAction);
-    fileMenu->addAction(toolsAction);
-    fileMenu->addAction(viewAction);
-    fileMenu->addSeparator();
+    connect(exitAction, SIGNAL(triggered(bool)), SLOT(close()));
     fileMenu->addAction(exitAction);
+    fileMenu->addSeparator();
 
-    HelpMenu = menuBar()->addMenu(tr("&Спаравка"));
+    HelpMenu = new QMenu("&Спаравка");
+    aboutAction = new QAction(tr("O программе"), this);
+    aboutAction->setStatusTip(tr("Сведения о программе"));
+    connect(aboutAction, SIGNAL(triggered(bool)), SLOT(about()));
     HelpMenu->addAction(aboutAction);
+
+    menuBar()->addMenu(fileMenu);
+    menuBar()->addMenu(HelpMenu);
 
     sb1 = new QLabel(statusBar());
     sb2 = new QLabel(statusBar());
@@ -57,7 +57,11 @@ void mainWindow::InitWindow()
     sb1->setText(tr("Привет!"));
     setMouseTracking(true);
 
+    cw = new CenterWidget();
     setCentralWidget(cw);
+    connect(cw, SIGNAL(Exit()), SLOT(close()));
+    connect(cw, SIGNAL(Start()), SIGNAL(runScenario()));
+    connect(cw, SIGNAL(View()), SLOT(view()));
 }
 
 mainWindow::~mainWindow()

@@ -46,7 +46,7 @@ public slots:
     void BodyPowerChange(bool);
 
 protected:
-    QVector<QString> messages;
+//    QVector<QString> messages;
 };
 
 #endif // CENTERWIDGET_H
